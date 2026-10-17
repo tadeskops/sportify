@@ -119,7 +119,7 @@ test("general guidelines use concise, nonduplicated points", () => {
 
 test("booking guidance includes management policies and respects monthly rotation", () => {
   const guide = renderBookingGuide(true);
-  assert.equal((guide.match(/<li>/g) || []).length, 9);
+  assert.equal((guide.match(/<li>/g) || []).length, 10);
   assert.match(guide, /month's booking coordinators/);
   const management = generalRules(config.features).find(section => section.id === "coordination")
     .blocks.find(block => block.title === "Turf booking management");
@@ -128,6 +128,9 @@ test("booking guidance includes management policies and respects monthly rotatio
   assert.match(guide, /one week in advance/);
   assert.match(guide, /Friday/);
   assert.match(guide, /booker must cancel at least 24 hours/);
+  assert.match(guide, /game moderator is the person who booked the turf/);
+  assert.match(guide, /recheck the listed player count 24 hours before the game/);
+  assert.match(guide, /arrange any necessary booking changes/);
   assert.match(guide, /cancellation, rescheduling and weather\/refund/);
   assert.match(guide, /Keep private receipts/);
   const withoutRotation = renderBookingGuide(false);

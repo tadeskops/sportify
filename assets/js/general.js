@@ -1,7 +1,8 @@
 export const turfBookingGuidelines = [
   "Book the turf one week in advance.",
   "For festivals and long weekends, the booker may ask members on Friday to confirm availability.",
-  "The person who booked the turf must follow up and check that sufficient players are confirmed.",
+  "The game moderator is the person who booked the turf.",
+  "The moderator must recheck the listed player count 24 hours before the game and arrange any necessary booking changes.",
   "If the player count is insufficient, the booker must cancel at least 24 hours before the game.",
   "Check the provider's cancellation deadline; if earlier, cancel by that deadline. Notify the group when the booking is cancelled."
 ];
@@ -93,7 +94,7 @@ export function generalRules(features) {
         {
           title: "For each game",
           bullets: [
-            "The person booking the venue coordinates that session and shares its details in the game group.",
+            "The game moderator shares session details and booking changes in the game group.",
             "Raise availability concerns there. Arrive on time and notify the coordinator if delayed.",
             "If the venue cancels or play is unsafe, follow the coordinator's update and the venue's refund or rescheduling terms."
           ]

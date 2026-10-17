@@ -75,7 +75,7 @@ h1 { font: 500 clamp(2.625rem, calc(5.2vw * var(--type-scale)), 4rem)/1.06 var(-
 .commitment > span { color: var(--accent); font-size: 2rem; line-height: 1.2; }
 .commitment strong { font-size: 1.25rem; }
 .commitment p { font-size: var(--reading); margin: 6px 0 0; color: var(--muted); }
-.quick-rules { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 24px 0 10px; }
+.quick-rules { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding: 24px 0 10px; }
 .quick-rules > div { display: flex; align-items: center; gap: 14px; background: var(--paper); border: 1px solid var(--line); border-radius: 18px; padding: 20px 16px; }
 .metric { font: 500 2.625rem/1 var(--heading); color: var(--accent); white-space: nowrap; letter-spacing: -2px; }
 .metric small { font: 400 1rem Arial, sans-serif; letter-spacing: 0; }
@@ -230,7 +230,7 @@ legend { font-size: 0.75rem; font-weight: 700; margin-bottom: 10px; }
   .commitment { padding: 21px; gap: 14px; }
   .commitment > span { font-size: 1.625rem; }
   .commitment strong { font-size: 1.0625rem; }
-  .quick-rules { gap: 8px; }
+  .quick-rules { grid-template-columns: 1fr; gap: 8px; }
   .quick-rules > div { padding: 15px 9px; border-radius: 14px; gap: 10px; }
   .metric { font-size: 2rem; }
   .quick-rules strong { font-size: 0.625rem; }

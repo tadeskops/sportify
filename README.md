@@ -111,6 +111,9 @@ the booker follows up on confirmed numbers and cancels at least 24 hours before
 play if insufficient (or earlier if the provider requires). Around festivals
 and long weekends, the booker may check availability in the group on Friday.
 Notify the group when cancelling; no fixed minimum player count is invented.
+The turf booker is the game moderator and must recheck the listed player count
+24 hours before play to arrange necessary booking changes. A third deadline
+card highlights this duty alongside cancellation and payment reminders.
 
 ## Source and structure
 

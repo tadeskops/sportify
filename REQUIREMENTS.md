@@ -19,6 +19,12 @@ Create a static community sports rule book for Sportify - The Address, Aundh-Ban
 
 ## Policy coverage
 
+Moderator clarification: the game moderator is the person who booked the turf.
+They must recheck the listed player count 24 hours before play and arrange any
+necessary booking amendments. Highlight this in a third top deadline card
+(three columns on desktop, stacked on mobile) and the shared booking management
+guidelines. Retain the insufficient-count cancellation deadline and group updates.
+
 Turf booking management: book one week in advance. The person who booked must
 follow up and check sufficient confirmed players; if insufficient, cancel at
 least 24 hours before play (or earlier to meet provider terms) and notify the
