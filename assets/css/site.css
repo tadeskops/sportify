@@ -37,7 +37,23 @@ svg { width: 21px; height: 21px; flex-shrink: 0; vertical-align: middle; }
 .address-brand small { display: block; color: var(--muted); font-size: 0.5625rem; margin-top: 4px; }
 .header-link { font-size: 0.75rem; text-decoration: none; border-bottom: 1px solid var(--line); padding: 8px 0; }
 .header-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; }
-.book-turf { display: inline-flex; align-items: center; gap: 8px; font-size: 0.75rem; color: var(--accent); }
+@property --booking-border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+.book-turf { position: relative; display: inline-flex; align-items: center; gap: 8px; font-size: 0.75rem; color: var(--accent); border-color: var(--accent); }
+.book-turf::before {
+  content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 2px; pointer-events: none;
+  background: conic-gradient(from var(--booking-border-angle), transparent 0deg 240deg, #b58a27 280deg, #ffe8a0 315deg, #b58a27 340deg, transparent 360deg);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  animation: booking-border-turn 10s linear infinite;
+}
+.book-turf:hover::before, .book-turf:focus-visible::before { animation-play-state: paused; }
+@keyframes booking-border-turn { to { --booking-border-angle: 360deg; } }
 .booking-dialog {
   background: var(--paper); color: var(--ink); border: 1px solid var(--line);
   border-radius: 22px; padding: 28px; width: min(520px, calc(100% - 36px));
@@ -263,6 +279,7 @@ legend { font-size: 0.75rem; font-weight: 700; margin-bottom: 10px; }
   .choice-row button { width: 44px; height: 44px; min-height: 44px; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .book-turf::before { animation: none; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; }
 }

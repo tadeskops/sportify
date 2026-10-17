@@ -87,6 +87,8 @@ No rates, live availability or facility guarantees are hard-coded; residents
 confirm location, format, price and cancellation terms directly before booking.
 
 The header's **Book a turf** button opens a keyboard-accessible venue picker.
+Its gold border highlight travels slowly around the edge once every 10 seconds,
+pauses on hover/keyboard focus, and stays static with reduced-motion preferences.
 Selecting a venue updates its booking URL and optional attendant contact.
 The booking checklist expands inside this dialog, keeping venue details out of
 the main reading flow. If `bookingPicker` is off, the directory and checklist

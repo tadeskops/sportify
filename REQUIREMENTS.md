@@ -60,6 +60,11 @@ attendance/payment wording is preserved rather than silently rewritten.
 
 ## Design and interaction requirements
 
+- Book a turf attention cue: a subtle gold boundary highlight rotates once
+  every 10 seconds without moving the button/text or blocking clicks. Pause on
+  hover/visible keyboard focus; keep static for reduced-motion users. Both
+  approved themes retain a visible gold base border.
+
 - Venue-specific booking instructions for 4 Lions: select venue, calendar date,
   Cricket > Cricket 6A, an available slot (user-shared 8-9:30; verify date,
   AM/PM and live availability), then advance payment and date/time confirmation.
