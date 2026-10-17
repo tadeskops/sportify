@@ -3,6 +3,7 @@
 ## Git identity: tadeskops only
 
 - Only the GitHub account `tadeskops` may perform any Git activity for this repository, including read-only Git commands, fetch, pull, branch operations, staging, commits, and pushes.
+- User-approved automation exception: the repository's Pages workflow may read full Git history for photo first-addition metadata and use `github-actions[bot]` only to commit/push expired file removals under `assets/photos/`. This does not authorize bot changes to rules, configuration or other code. Scheduled cleanup publishes through the same workflow because bot-token pushes do not trigger a separate run.
 - Before any Git command, verify the active github.com account with `gh api --hostname github.com user --jq .login`. Stop if it is not exactly `tadeskops` or verification fails. Always specify the hostname: this machine also uses an enterprise GitHub server. Do not silently switch accounts; obtain permission first.
 - After verifying the account, check repository-local commit author name/email and remote before writes. Use a verified email belonging to `tadeskops`; do not guess an email or change global Git settings. Use HTTPS authentication explicitly backed by the verified account; do not rely on an unrelated credential or SSH key.
 - The intended repository is `https://github.com/tadeskops/sportify`, branch `main`. Do not overwrite unrelated changes or force-push.

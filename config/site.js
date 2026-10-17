@@ -18,6 +18,7 @@ export default {
     search: true,
     sectionNavigation: true,
     backToTop: true,
+    photoBooth: true,
     appearance: true,
     themePicker: true,
     fontPicker: false,
@@ -49,6 +50,10 @@ export default {
       }
     }
   ],
+  photoBooth: {
+    autoRotate: true,
+    intervalMs: 6000
+  },
   appearance: {
     defaultTheme: "light",
     defaultFont: "classic",

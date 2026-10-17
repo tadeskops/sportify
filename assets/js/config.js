@@ -1,7 +1,7 @@
 export const featureNames = [
   "join", "monthlyRotation", "venueBooking", "bookingPicker", "football", "search", "sectionNavigation",
   "appearance", "themePicker", "fontPicker", "textSize", "rememberPreferences",
-  "socialLinks", "whatsapp", "instagram", "backToTop"
+  "socialLinks", "whatsapp", "instagram", "backToTop", "photoBooth"
 ];
 
 export function validateConfig(config) {
@@ -53,6 +53,10 @@ export function validateConfig(config) {
   if (!["standard", "large"].includes(config.appearance?.defaultTextSize)) throw new Error("Invalid default text size.");
   if (!Number.isInteger(config.appearance.idleDelayMs) || config.appearance.idleDelayMs < 1000) {
     throw new Error("Appearance idle delay must be an integer of at least 1000ms.");
+  }
+  if (typeof config.photoBooth?.autoRotate !== "boolean" ||
+      !Number.isInteger(config.photoBooth.intervalMs) || config.photoBooth.intervalMs < 3000) {
+    throw new Error("Photo booth needs an autoRotate boolean and intervalMs of at least 3000ms.");
   }
   return config;
 }

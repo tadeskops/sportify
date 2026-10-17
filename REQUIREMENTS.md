@@ -16,6 +16,26 @@ Create a static community sports rule book for Sportify - The Address, Aundh-Ban
 - Archived concepts retain draft content and future sport previews. Production has General and Football rule books only; do not publish invented rules for other sports.
 - Use the supplied Sportify badge locally; do not edit the source artwork.
 - No booking, payments, login, or member tracking functionality is requested.
+- Photo booth: discover approved JPG/JPEG/PNG/WebP/AVIF files directly in
+  `assets/photos/` at build time; no manual list. Show the booth and hero shortcut
+  only when `features.photoBooth` is enabled and at least one unexpired photo
+  exists. Place below rules/joining to preserve the rules-first reading flow.
+  Single images stay still; multiple images rotate at configurable intervals
+  (default 6000ms, minimum 3000ms), with Previous/Next/Pause controls.
+- Pause photo rotation on hover, keyboard focus, hidden tabs and off-screen
+  sections; reduced-motion users use manual navigation. Use descriptive filenames
+  for captions/alt text. Report manifest/image failures visibly.
+- User-approved retention: three calendar months after each photo's first Git
+  addition, clamped at month ends in UTC. Edits/rebuilds do not renew retention.
+  Read full history, exclude expired files from builds/browser and clear stale
+  photo output on rebuild. Daily Actions cleanup at 03:17 UTC deletes expired
+  source images and republishes. Schedules can be delayed/disabled by GitHub.
+- User-approved automation exception: `github-actions[bot]` may commit/push
+  expired photo deletions only under `assets/photos/`; workflow metadata reads
+  may use Git history. All other Git activity remains `tadeskops`-only.
+  Removing images does not erase old Git history, artifacts, caches or downloads.
+  Publish consented photos only, with private/GPS metadata removed; no public
+  upload backend is included.
 
 ## Policy coverage
 
@@ -120,7 +140,9 @@ attendance/payment wording is preserved rather than silently rewritten.
 - `temp/` is persistent local context and demo storage, always ignored and never committed or deployed.
 - This requirements file must be committed/pushed and kept current with repository changes.
 - Authentication blocker resolved: explicit `gh api --hostname github.com user --jq .login` returns `tadeskops`. Earlier host-unspecified checks targeted the enterprise server. Repository remote, branch and local author verified; temp and dist are ignored and were not committed. Initial publication completed successfully.
-- `.github/workflows/pages.yml` tests and builds on `main` pushes (and manual dispatch on `main`), uploads only the allowlisted `dist/` output and deploys using GitHub Pages actions.
+- `.github/workflows/pages.yml` cleans expired photos, tests and builds on `main`
+  pushes, manual dispatch and a daily schedule, then uploads only the allowlisted
+  `dist/` output and deploys using GitHub Pages actions.
 - Enable Pages with GitHub Actions once authenticated. Verify the workflow and expected project URL `https://tadeskops.github.io/sportify/` before claiming publication.
 - Build copies only `index.html`, `assets/`, and `config/`. Local demos, context, instructions, tests and metadata never enter the deployment artifact.
 
@@ -244,3 +266,15 @@ sections, emergency contribution exemption, correct PlaySpots picker link,
 loaded images and 320px Larger-text layout without horizontal overflow or
 uncaught errors. Every subsequent push to `main` runs the same deployment.
 Earlier blocked/local-only verification records above are historical.
+
+Photo-booth verification: all 19 Node tests, syntax check and production build
+pass. Tests cover UTC month-end/leap-date retention, exact expiry, idempotent
+source deletion, stale-output removal, disabled-feature output, manifest/config
+validation and scoped daily cleanup configuration. Isolated browser checks with
+synthetic manifests (no sample photos committed) pass: empty/expired hiding,
+single-image controls hidden, six-second rotation, Previous/Next/Pause,
+reduced-motion changes, off-screen/hover/focus pauses and resumption, feature-off
+without fetching, manual mode, visible HTTP/image errors and runtime expiry
+removing the booth/shortcut. Light/dark Larger-text layouts at 1280/390/320px
+have no horizontal overflow or uncaught JavaScript errors. No community photos
+have been supplied, so the deployed booth should remain hidden until upload.

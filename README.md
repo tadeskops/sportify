@@ -39,6 +39,7 @@ repository configuration, not an in-browser admin editor or access control.
 | `search` | Rule search, result status and reset controls |
 | `sectionNavigation` | Rule-section contents navigation |
 | `backToTop` | Transparent floating up-arrow after scrolling more than 400px; keyboard accessible and reduced-motion aware |
+| `photoBooth` | Photo booth and hero shortcut, only when at least one unexpired photo is present |
 | `appearance` | Parent switch for the entire floating appearance panel |
 | `themePicker` | Dark/light controls |
 | `fontPicker` | Optional Classic serif/Modern sans controls; disabled in the approved UI |
@@ -155,6 +156,60 @@ The rule book follows the commitment/deadline summaries, before the joining
 guide or fallback venue directory. "Read the rules" is the primary hero action;
 joining remains one click away from the header and hero.
 Sport selectors and search share one desktop row; they stack at 850px and below.
+
+## Community photo booth
+
+Add approved **JPG/JPEG, PNG, WebP or AVIF** images directly to
+[`assets/photos/`](assets/photos/), then commit/push them to `main`. No manual
+photo list is needed. Use descriptive filenames (for example,
+`sunday-football-team.jpg`); they become captions and alternative descriptions.
+Do not add subfolders or other file types. Keep `.gitkeep` so an empty folder
+continues to exist.
+
+The build scans the folder and generates `assets/photo-booth.json` in the
+deployment output. The photo booth appears after the joining guide and before
+the closing section, with a **Photo booth** hero shortcut. Empty/expired folders
+produce no photo booth or shortcut. A single image stays still; multiple images
+rotate every six seconds with Previous/Next and Play/Pause controls. Hover,
+keyboard focus, an off-screen section or a hidden tab pauses rotation.
+Reduced-motion users get manual navigation. Read failures are reported visibly.
+
+Configuration in [config/site.js](config/site.js):
+
+```js
+features: { /* other required flags */ photoBooth: true },
+photoBooth: { autoRotate: true, intervalMs: 6000 }
+```
+
+Set `photoBooth` to false to hide the feature and omit all photos from the next
+deployment. Set `autoRotate` to false for manual viewing; intervals must be at
+least 3000ms.
+
+### Three-calendar-month retention
+
+- Each image expires **three calendar months after its first Git addition**,
+  using the original addition commit's UTC timestamp, not its filesystem date or
+  last edit. A rename preserves history; editing/rebuilding does not extend retention.
+- Month ends clamp to the last valid day (31 January becomes 30 April). This is
+  not 90 days and not a calendar-quarter purge.
+- A daily Pages workflow at **03:17 UTC / 08:47 IST** removes expired source
+  photos, commits only those removals as `github-actions[bot]`, then builds and
+  deploys in the same run. This is the user-approved, narrowly scoped Git-identity
+  exception. Normal changes still use `tadeskops`.
+- GitHub may delay scheduled jobs or disable them after repository inactivity.
+  Push/manual runs also clean expired photos; maintainers should monitor Actions.
+  The build and browser exclude expired photos even before scheduled deletion.
+- Deletion removes photos from the current branch and subsequent Pages output,
+  **not older Git history, previous Actions artifacts, caches or downloaded copies**.
+  Do not treat this public repository as private or as guaranteed permanent erasure.
+
+Local photo builds need full Git history, GitHub CLI and verified `tadeskops`
+authentication. Uncommitted photos use creation time for local preview only,
+with a warning; publication anchors retention to their first commit.
+
+Only add photos with permission to publish, especially photos of children.
+Remove GPS/private metadata before uploading. This is a maintainer-managed
+folder, not a public upload endpoint or an automatic WhatsApp importer.
 
 ## Local design archive
 

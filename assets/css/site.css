@@ -166,6 +166,13 @@ details[open] .expand-icon { transform: rotate(45deg); }
 blockquote { white-space: pre-line; margin: 18px 0; border-left: 3px solid var(--accent); padding-left: 16px; color: var(--muted); font-size: var(--reading); }
 .empty-state { text-align: center; padding: 40px 20px; border: 1px dashed var(--line); border-radius: 18px; }
 .closing { text-align: center; padding: 65px 20px; margin: 60px 0 35px; border: 1px solid var(--line); border-radius: 90px 90px 18px 18px; background: var(--tint); }
+.photo-booth { margin-top: 45px; padding: 24px; border: 1px solid var(--line); border-radius: 18px; background: var(--paper); }
+.photo-frame { margin: 24px 0 16px; }
+.photo-frame img { display: block; width: 100%; height: min(55vh, 500px); object-fit: contain; border-radius: 12px; background: var(--tint); }
+.photo-frame figcaption { margin-top: 12px; font-size: var(--reading); overflow-wrap: anywhere; }
+.photo-controls { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; font-size: var(--reading); }
+.photo-error { color: var(--muted); font-size: var(--reading); }
+.photo-error:empty { display: none; }
 .closing-address { display: block; width: 45px; height: 45px; margin: 0 auto 24px; }
 .closing h2 { font-size: 2.75rem; color: var(--accent); }
 .closing > p:not(.eyebrow) { color: var(--muted); }
