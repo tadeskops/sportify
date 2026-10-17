@@ -47,6 +47,10 @@ attendance/payment wording is preserved rather than silently rewritten.
 
 ## Design and interaction requirements
 
+- Desktop (>850px): sport selectors and rule search/Clear share one toolbar row,
+  aligned at the bottom. At tablet/mobile widths stack them. Feature-disabled
+  controls leave no empty column; search results stay below the toolbar.
+
 - Compact palette refinement: 52px rail / 36px controls on pointer desktops,
   60px rail / 44px touch targets on coarse-pointer devices. After the configured
   idle delay, fade to 30% opacity and remove surface/blur/borders/selection fills.

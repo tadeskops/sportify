@@ -132,6 +132,7 @@ and its original date remain in the content module for provenance.
 The rule book follows the commitment/deadline summaries, before the joining
 guide or fallback venue directory. "Read the rules" is the primary hero action;
 joining remains one click away from the header and hero.
+Sport selectors and search share one desktop row; they stack at 850px and below.
 
 ## Local design archive
 
