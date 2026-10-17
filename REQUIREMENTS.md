@@ -8,7 +8,7 @@ Create a static community sports rule book for Sportify - The Address, Aundh-Ban
 
 ## Current scope and status
 
-- Phase: initial publication. Production is implemented outside `temp/`. GitHub.com authentication is now verified as `tadeskops`; enabling Actions-based Pages and publishing the approved site.
+- Phase: published. Live at `https://tadeskops.github.io/sportify/`. Production is implemented outside `temp/`; pushes to `main` automatically test, build and deploy through GitHub Actions Pages.
 - Retain the eight locally viewable, responsive concepts with a comparison gallery in ignored `temp/`.
 - Concepts: Field Notes (editorial), Stadium (high-energy dark), Clubhouse (warm accordions), Playbook (dashboard), Quiet Rules (minimal long-form), and Gold Standard (badge-led black/gold).
 - Seventh concept: Clubhouse Gold, requested as an additional demo combining Clubhouse's layout, rounded styling and accordions with Gold Standard's black/gold palette. Use the supplied Sportify badge as the primary identity and The Address logo as a supporting header/closing identity, without altering source artwork. Preserve the original six concepts.
@@ -77,7 +77,7 @@ attendance/payment wording is preserved rather than silently rewritten.
 - All Git activity must be under verified `tadeskops` identity, as specified in `AGENTS.md`.
 - `temp/` is persistent local context and demo storage, always ignored and never committed or deployed.
 - This requirements file must be committed/pushed and kept current with repository changes.
-- Authentication blocker resolved: explicit `gh api --hostname github.com user --jq .login` now returns `tadeskops`. Earlier host-unspecified checks targeted the enterprise server. Repository remote and branch verified; temp and dist are ignored. Initial publication is in progress.
+- Authentication blocker resolved: explicit `gh api --hostname github.com user --jq .login` returns `tadeskops`. Earlier host-unspecified checks targeted the enterprise server. Repository remote, branch and local author verified; temp and dist are ignored and were not committed. Initial publication completed successfully.
 - `.github/workflows/pages.yml` tests and builds on `main` pushes (and manual dispatch on `main`), uploads only the allowlisted `dist/` output and deploys using GitHub Pages actions.
 - Enable Pages with GitHub Actions once authenticated. Verify the workflow and expected project URL `https://tadeskops.github.io/sportify/` before claiming publication.
 - Build copies only `index.html`, `assets/`, and `config/`. Local demos, context, instructions, tests and metadata never enter the deployment artifact.
@@ -189,3 +189,16 @@ theme selection after drag and 20px keyboard movement. Measured font sizes for
 hero/section headings, body, labels, navigation and branding scale exactly 1.2x.
 Eight dark/light layout checks at 1440/768/390/320px pass with Larger text and
 booking dialogs. Separate font-style buttons are absent; classic remains active.
+
+## Live publication verification
+
+17 October 2026: published as `tadeskops` to `main`, initial commit `0eb10f5`.
+GitHub Pages uses Actions builds with HTTPS enforced. Deployment run
+`https://github.com/tadeskops/sportify/actions/runs/39012999102` succeeded.
+All 13 Node tests, syntax check and build passed before pushing. Live URL
+`https://tadeskops.github.io/sportify/` returns HTTP 200; browser checks confirm
+Ivory gold default, six General sections (no Equipment & hygiene), five Football
+sections, emergency contribution exemption, correct PlaySpots picker link,
+loaded images and 320px Larger-text layout without horizontal overflow or
+uncaught errors. Every subsequent push to `main` runs the same deployment.
+Earlier blocked/local-only verification records above are historical.

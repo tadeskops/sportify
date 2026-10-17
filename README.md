@@ -3,8 +3,8 @@
 A resident-managed community sports rule book. Production combines the approved
 Clubhouse Gold dark and light designs with a slim floating colour/font rail.
 
-**Status:** production ready; github.com authentication verified as `tadeskops`.
-Initial GitHub Pages publication is in progress.
+**Live:** [Sportify rule book](https://tadeskops.github.io/sportify/).
+Published as `tadeskops`; pushes to `main` automatically test, build and deploy.
 
 ## Project references
 
@@ -163,6 +163,12 @@ GitHub Actions** in `tadeskops/sportify`. Commit and push only intended producti
 files, requirements and instructions. Inspect the workflow run and verify its
 reported live URL (expected project URL: `https://tadeskops.github.io/sportify/`).
 Do not mark the site published until the run and live page are verified.
+
+Initial publication verified on 17 October 2026: Actions Pages source enabled,
+HTTPS enforced, all 13 tests passed, and the production page returned HTTP 200.
+Live browser checks verified Ivory gold defaults, six General/five Football
+sections, emergency contribution exemption, venue picker, image loading and
+320px Larger-text layout with no horizontal overflow or uncaught errors.
 
 All asset URLs are relative, supporting the `/sportify/` project path. The
 ignored local demos, persistent context, tests, instructions and repository
