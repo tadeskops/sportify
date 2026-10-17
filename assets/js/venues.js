@@ -37,6 +37,8 @@ export function renderVenueDirectory(venues, monthlyRotation) {
 export function mountBookingPicker(venues, monthlyRotation) {
   const trigger = document.getElementById("book-turf");
   if (!trigger) return;
+  const guideTrigger = document.getElementById("booking-guidelines");
+  let returnFocus = trigger;
   const dialog = document.createElement("dialog");
   dialog.id = "booking-dialog";
   dialog.className = "booking-dialog";
@@ -63,10 +65,15 @@ export function mountBookingPicker(venues, monthlyRotation) {
   }
   renderSelected();
   select.addEventListener("change", renderSelected);
-  trigger.addEventListener("click", () => {
+  function openBooking(source, showGuide) {
+    returnFocus = source;
+    dialog.querySelector(".booking-help").open = showGuide;
     dialog.showModal();
+    dialog.scrollTop = 0;
     select.focus();
-  });
+  }
+  trigger.addEventListener("click", () => openBooking(trigger, false));
+  guideTrigger?.addEventListener("click", () => openBooking(guideTrigger, true));
   dialog.querySelector("#close-booking").addEventListener("click", () => dialog.close());
   dialog.addEventListener("keydown", event => {
     if (event.key === "Escape" && !event.defaultPrevented) {
@@ -74,7 +81,7 @@ export function mountBookingPicker(venues, monthlyRotation) {
       dialog.close();
     }
   });
-  dialog.addEventListener("close", () => trigger.focus());
+  dialog.addEventListener("close", () => returnFocus.focus());
   dialog.addEventListener("click", event => {
     const rect = dialog.getBoundingClientRect();
     if (event.target === dialog && (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom)) dialog.close();

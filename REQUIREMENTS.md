@@ -60,6 +60,11 @@ attendance/payment wording is preserved rather than silently rewritten.
 
 ## Design and interaction requirements
 
+- Add "How to book a turf" alongside the hero's reading/joining actions. Reuse
+  the booking dialog with management guidance expanded and venue-specific steps;
+  return focus to the correct opener. Picker-disabled mode links to the directory;
+  no enabled booking venues means no booking action.
+
 - Book a turf attention cue: a subtle gold boundary highlight rotates once
   every 10 seconds without moving the button/text or blocking clicks. Pause on
   hover/visible keyboard focus; keep static for reduced-motion users. Both

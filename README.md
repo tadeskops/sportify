@@ -87,6 +87,9 @@ No rates, live availability or facility guarantees are hard-coded; residents
 confirm location, format, price and cancellation terms directly before booking.
 
 The header's **Book a turf** button opens a keyboard-accessible venue picker.
+**How to book a turf** in the hero opens the same dialog with management help
+expanded and the selected venue's steps visible. Closing returns focus to the
+button used to open it. With the picker disabled, it links to the fallback directory.
 Its gold border highlight travels slowly around the edge once every 10 seconds,
 pauses on hover/keyboard focus, and stays static with reduced-motion preferences.
 Selecting a venue updates its booking URL and optional attendant contact.

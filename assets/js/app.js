@@ -27,7 +27,7 @@ function renderSite() {
       <main id="main">
         <section class="hero" aria-labelledby="page-title">
           <div><p class="eyebrow">OUR COMMUNITY. OUR SHARED GROUND RULES.</p><h1 id="page-title" tabindex="-1">More than a game.<br>We're a community.</h1><p class="hero-lead">Different sports. Familiar faces. A resident-led community that respects everyone's time, plays fair, and makes room for each other.</p>
-            <div class="hero-actions"><a class="primary-link" href="#rule-book">Read the rules &darr;</a>${f.join ? '<a href="#join">How to join a game &nearr;</a>' : ""}${venues.length && !f.bookingPicker ? '<a href="#venues">Where to book &nearr;</a>' : ""}</div>
+            <div class="hero-actions"><a class="primary-link" href="#rule-book">Read the rules &darr;</a>${f.join ? '<a href="#join">How to join a game &nearr;</a>' : ""}${venues.length ? f.bookingPicker ? '<button type="button" class="booking-guide-link" id="booking-guidelines" aria-haspopup="dialog" aria-controls="booking-dialog">How to book a turf &nearr;</button>' : '<a href="#venues">How to book a turf &nearr;</a>' : ""}</div>
             <p class="hero-meta"><span class="status-dot" aria-hidden="true"></span> By residents. For residents.</p>
           </div>
           <div class="hero-art"><img src="${badge}" alt="Sportify community sports badge" width="768" height="768"><span>MANY SPORTS. ONE COMMUNITY.</span></div>
