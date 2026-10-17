@@ -105,6 +105,13 @@ card, followed by a reminder to notify the game group once confirmed. The
 Cricket > Cricket 6A, available slot, and advance payment/date-time confirmation.
 The shared 8-9:30 slot is not live availability; users must verify date and AM/PM.
 
+Turf booking management appears under General's Resident coordination and in
+the booking dialog/directory using shared policy text. Book one week ahead;
+the booker follows up on confirmed numbers and cancels at least 24 hours before
+play if insufficient (or earlier if the provider requires). Around festivals
+and long weekends, the booker may check availability in the group on Friday.
+Notify the group when cancelling; no fixed minimum player count is invented.
+
 ## Source and structure
 
 - [General rules](assets/js/general.js): relevant shared rules and resident-led coordination.

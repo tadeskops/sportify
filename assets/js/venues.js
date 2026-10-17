@@ -1,4 +1,5 @@
 import { escapeHtml as e } from "./dom.js";
+import { turfBookingGuidelines } from "./general.js";
 
 export function renderContact(contact) {
   if (!contact || (!contact.name.trim() && !contact.phone)) return "";
@@ -11,8 +12,8 @@ export function renderVenueSteps(venue) {
 }
 
 export function renderBookingGuide(monthlyRotation) {
-  return `<div class="booking-guide"><h3>How to organise the booking</h3><ol>
-    <li>${monthlyRotation ? "The month's booking coordinators check" : "Agree a session coordinator to check"} that enough players have committed.</li>
+  return `<div class="booking-guide"><h3>Turf booking management</h3><ul>${turfBookingGuidelines.map(point => `<li>${e(point)}</li>`).join("")}</ul><h3>Booking checks</h3><ol>
+    <li>${monthlyRotation ? "The month's booking coordinators" : "Agree a session coordinator to"} organise the booking and follow-up.</li>
     <li>Confirm the location, date, slot duration, team capacity, availability and total price on the provider's site.</li>
     <li>Check cancellation, rescheduling and weather/refund terms. Share deadlines with players before they commit.</li>
     <li>Book through the provider. Share the confirmed slot, location, booking reference and contribution in the game group.</li>
@@ -46,7 +47,7 @@ export function mountBookingPicker(venues, monthlyRotation) {
     <label for="turf-select">Select a turf</label>
     <select id="turf-select">${venues.map(venue => `<option value="${e(venue.id)}">${e(venue.name)}</option>`).join("")}</select>
     <div id="selected-venue" aria-live="polite"></div>
-    <details class="booking-help"><summary>How to organise the booking</summary>${renderBookingGuide(monthlyRotation)}</details>`;
+    <details class="booking-help"><summary>Turf booking management</summary>${renderBookingGuide(monthlyRotation)}</details>`;
   document.body.append(dialog);
   const select = dialog.querySelector("#turf-select");
   const selected = dialog.querySelector("#selected-venue");

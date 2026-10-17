@@ -1,3 +1,11 @@
+export const turfBookingGuidelines = [
+  "Book the turf one week in advance.",
+  "For festivals and long weekends, the booker may ask members on Friday to confirm availability.",
+  "The person who booked the turf must follow up and check that sufficient players are confirmed.",
+  "If the player count is insufficient, the booker must cancel at least 24 hours before the game.",
+  "Check the provider's cancellation deadline; if earlier, cancel by that deadline. Notify the group when the booking is cancelled."
+];
+
 export function generalRules(features) {
   return [
     {
@@ -78,6 +86,10 @@ export function generalRules(features) {
             "Booking responsibility is separate from the per-game venue-payment rotation."
           ]
         }] : []),
+        {
+          title: "Turf booking management",
+          bullets: turfBookingGuidelines
+        },
         {
           title: "For each game",
           bullets: [

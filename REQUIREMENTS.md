@@ -19,6 +19,13 @@ Create a static community sports rule book for Sportify - The Address, Aundh-Ban
 
 ## Policy coverage
 
+Turf booking management: book one week in advance. The person who booked must
+follow up and check sufficient confirmed players; if insufficient, cancel at
+least 24 hours before play (or earlier to meet provider terms) and notify the
+group. For festivals and long weekends, the booker may ask availability on Friday.
+Show this shared guidance in General's Resident coordination and booking
+management help/directory. No fixed minimum count or automatic cancellation is added.
+
 Latest approved exception: a player unable to participate due to unavoidable
 circumstances such as an emergency is excluded from the contribution share.
 Apply to General, Football and the cancellation summary, even without a

@@ -58,7 +58,7 @@ select { width: 100%; min-height: 48px; padding: 10px 12px; border: 1px solid va
 .booking-help { border-top: 1px solid var(--line); padding-top: 16px; margin-top: 24px; }
 .booking-help summary { cursor: pointer; padding: 8px 0; font-weight: 700; font-size: var(--reading); }
 .booking-help .booking-guide { padding: 12px 16px; margin-top: 12px; }
-.booking-help .booking-guide h3 { display: none; }
+.booking-help .booking-guide > h3:first-child { display: none; }
 .hero { display: grid; grid-template-columns: 1fr 320px; gap: 45px; align-items: center; padding: 70px 0 58px; }
 .eyebrow { font-size: 0.625rem; font-weight: 700; letter-spacing: 2px; line-height: 1.6; margin: 0 0 20px; }
 h1 { font: 500 clamp(2.625rem, calc(5.2vw * var(--type-scale)), 4rem)/1.06 var(--heading); color: var(--accent); letter-spacing: -2px; margin: 0 0 28px; }

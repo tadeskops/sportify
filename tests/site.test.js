@@ -6,7 +6,7 @@ import { join } from "node:path";
 import config from "../config/site.js";
 import { validateConfig, appearanceEnabled, featureNames } from "../assets/js/config.js";
 import { resolvePreferences } from "../assets/js/appearance.js";
-import { generalRules } from "../assets/js/general.js";
+import { generalRules, turfBookingGuidelines } from "../assets/js/general.js";
 import { footballRules, footballSource } from "../assets/js/football.js";
 import { matchingRules, renderSections } from "../assets/js/rulebook.js";
 import { escapeHtml } from "../assets/js/dom.js";
@@ -117,15 +117,22 @@ test("general guidelines use concise, nonduplicated points", () => {
   assert.ok(points.join(" ").split(/\s+/).length <= 650);
 });
 
-test("booking guidance keeps all four steps and respects monthly rotation", () => {
+test("booking guidance includes management policies and respects monthly rotation", () => {
   const guide = renderBookingGuide(true);
-  assert.equal((guide.match(/<li>/g) || []).length, 4);
-  assert.match(guide, /month's booking coordinators check/);
+  assert.equal((guide.match(/<li>/g) || []).length, 9);
+  assert.match(guide, /month's booking coordinators/);
+  const management = generalRules(config.features).find(section => section.id === "coordination")
+    .blocks.find(block => block.title === "Turf booking management");
+  assert.deepEqual(management.bullets, turfBookingGuidelines);
+  for (const point of turfBookingGuidelines) assert.ok(guide.includes(escapeHtml(point)));
+  assert.match(guide, /one week in advance/);
+  assert.match(guide, /Friday/);
+  assert.match(guide, /booker must cancel at least 24 hours/);
   assert.match(guide, /cancellation, rescheduling and weather\/refund/);
   assert.match(guide, /Keep private receipts/);
   const withoutRotation = renderBookingGuide(false);
   assert.doesNotMatch(withoutRotation, /month's/);
-  assert.match(withoutRotation, /Agree a session coordinator to check that/);
+  assert.match(withoutRotation, /Agree a session coordinator to/);
 });
 
 test("venue-specific provider steps show the five-step route and confirmation reminder", () => {
