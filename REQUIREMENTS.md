@@ -47,6 +47,14 @@ attendance/payment wording is preserved rather than silently rewritten.
 
 ## Design and interaction requirements
 
+- Compact palette refinement: 52px rail / 36px controls on pointer desktops,
+  60px rail / 44px touch targets on coarse-pointer devices. After the configured
+  idle delay, fade to 30% opacity and remove surface/blur/borders/selection fills.
+  Restore on hover or visible keyboard focus; retain dragging and mobile retraction.
+  Verified desktop rail measures 52px by approximately 211px (previously 64px
+  by approximately 269px). Browser idle/hover/selection/drag/320px checks and
+  all 13 tests/build pass.
+
 - Mobile-first readability, high contrast, visible keyboard focus, semantic landmarks, and labelled controls.
 - Default to Ivory gold (light), including the initial HTML/loading screen and browser theme colour. Preserve an explicitly saved user theme when preferences are enabled.
 - Ivory gold is the base CSS fallback as well as the configured/HTML default at every viewport, regardless of operating-system colour preference. Midnight gold requires an explicit user selection (or its saved preference).

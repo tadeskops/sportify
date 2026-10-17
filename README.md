@@ -54,7 +54,11 @@ omitted. Disabled controls use configured defaults, not old saved preferences.
 The `appearance` object sets default theme, heading font, reading size and idle
 delay. The right-centred rail shows circular theme swatches and a single Standard/Larger
 text-size group directly, with labelled controls and
-tooltips. Drag its grip to move the palette anywhere within the screen; click
+tooltips. The compact rail is 52px wide with 36px controls; touch devices retain
+44px targets in a 60px rail. Idle opacity drops to 30%, with no background, blur,
+border or selected-button fill. Pointer-selected controls do not prevent idle
+fading after the pointer leaves; visible keyboard focus keeps controls active.
+Drag its grip to move the palette anywhere within the screen; click
 the grip to toggle the controls. Keyboard users can focus the grip and use arrow
 keys to move it in 20px steps. The palette stays within the viewport on drag and
 resize. Its position lasts for this page visit; Escape collapses the controls. Desktop controls

@@ -87,7 +87,7 @@ export function mountAppearance(config) {
   }
   function scheduleIdle() {
     clearTimeout(timer);
-    if (drag || root.matches(":hover, :focus-within")) return;
+    if (drag || root.matches(":hover") || root.querySelector(":focus-visible")) return;
     timer = setTimeout(() => {
       if (window.matchMedia("(max-width: 600px)").matches && !root.classList.contains("is-positioned")) {
         panel.hidden = true;
