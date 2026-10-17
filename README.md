@@ -75,6 +75,11 @@ Classic typography is fixed in the approved UI (`fontPicker: false`); saved sans
 preferences are ignored. Larger uses a 1.2x root size so headings, body text,
 labels and navigation scale together, preserving their typography ratios.
 
+The hero badge has a fine 2px, theme-matched gold rim with a bright champagne
+highlight and a soft layered gold halo
+that travels clockwise once every seven seconds. Only the decorative rim moves,
+not the logo or card; reduced-motion preferences keep the highlight static.
+
 Community text and links are also configurable. The WhatsApp invitation is
 public by design. Never store secrets, payment details or private resident data
 in configuration or static assets.

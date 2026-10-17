@@ -173,6 +173,18 @@ test("Ivory gold is the HTML, CSS and configured default in every viewport", asy
   assert.match(css, /:root\[data-theme="dark"\]/);
 });
 
+test("hero badge has an isolated theme-aware rim with smooth, reduced-motion-safe rotation", async () => {
+  const [app, css] = await Promise.all([
+    readFile(new URL("../assets/js/app.js", import.meta.url), "utf8"),
+    readFile(new URL("../assets/css/site.css", import.meta.url), "utf8")
+  ]);
+  assert.match(app, /class="hero-badge"><img[^>]+alt="Sportify community sports badge"[^>]*><span class="hero-badge-rim" aria-hidden="true"><\/span><\/div><span>MANY SPORTS/);
+  assert.match(css, /\.hero-badge-rim\s*\{[^}]*pointer-events:\s*none;[^}]*filter:\s*drop-shadow/);
+  assert.match(css, /\.hero-badge-rim::before\s*\{[^}]*conic-gradient\([^;]*var\(--accent\)[^}]*animation:\s*hero-badge-orbit 7s linear infinite;/);
+  assert.match(css, /@keyframes hero-badge-orbit\s*\{\s*to\s*\{\s*transform:\s*rotate\(360deg\)/);
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\)\s*\{[^}]*\.hero-badge-rim::before\s*\{\s*animation:\s*none;/);
+});
+
 test("football retains all five source sections and exact sport-specific requirements", () => {
   assert.equal(footballRules.length, 5);
   const text = JSON.stringify(footballRules);

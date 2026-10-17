@@ -80,6 +80,12 @@ attendance/payment wording is preserved rather than silently rewritten.
 
 ## Design and interaction requirements
 
+- Hero circular badge: a fine 2px gold boundary with a brighter champagne
+  highlight and a soft layered gold halo travels
+  smoothly clockwise once every seven seconds, matching both themes. Keep the
+  artwork and surrounding card stationary; do not alter the source image.
+  The decorative rim must not intercept input and stays static for reduced motion.
+
 - Add "How to book a turf" alongside the hero's reading/joining actions. Reuse
   the booking dialog with management guidance expanded and venue-specific steps;
   return focus to the correct opener. Picker-disabled mode links to the directory;
