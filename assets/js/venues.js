@@ -5,6 +5,11 @@ export function renderContact(contact) {
   return `<div class="venue-contact"><span class="contact-label">Venue attendant</span>${contact.name.trim() ? `<strong>${e(contact.name)}</strong>` : ""}${contact.phone ? `<a href="tel:${e(contact.phone)}">Call ${e(contact.phone)}</a>` : ""}</div>`;
 }
 
+export function renderVenueSteps(venue) {
+  if (!venue.bookingSteps) return "";
+  return `<div class="venue-booking-steps"><h3>Booking steps on ${e(venue.provider)}</h3><ol>${venue.bookingSteps.map(step => `<li>${e(step)}</li>`).join("")}</ol><p><strong>Once confirmed:</strong> Notify the game group with the confirmed venue, date and time.</p></div>`;
+}
+
 export function renderBookingGuide(monthlyRotation) {
   return `<div class="booking-guide"><h3>How to organise the booking</h3><ol>
     <li>${monthlyRotation ? "The month's booking coordinators check" : "Agree a session coordinator to check"} that enough players have committed.</li>
@@ -21,7 +26,7 @@ export function renderVenueDirectory(venues, monthlyRotation) {
     <p class="muted">Community-shared venue options. Booking happens on the provider's site, not on Sportify.</p>
     <div class="venue-grid">${venues.map(venue => `<article class="venue-card">
       <p class="eyebrow">${e(venue.provider)} / ${e(venue.sport)}</p><h3>${e(venue.name)}</h3>
-      <p>${e(venue.note)}</p>${renderContact(venue.contact)}
+      <p>${e(venue.note)}</p>${renderContact(venue.contact)}${renderVenueSteps(venue)}
       <a class="primary-link" href="${e(venue.url)}" target="_blank" rel="noopener noreferrer">View venue &amp; booking options &nearr;<span class="sr-only"> (opens in a new tab)</span></a>
     </article>`).join("")}</div>
     ${renderBookingGuide(monthlyRotation)}
@@ -53,7 +58,7 @@ export function mountBookingPicker(venues, monthlyRotation) {
       return;
     }
     const contact = renderContact(venue.contact);
-    selected.innerHTML = `<p class="venue-provider">${e(venue.provider)} / ${e(venue.sport)}</p><h3>${e(venue.name)}</h3><p class="muted">${e(venue.note)}</p>${contact || '<p class="muted contact-unlisted">No attendant contact is listed yet. Check the venue provider for contact details.</p>'}<a class="primary-link" href="${e(venue.url)}" target="_blank" rel="noopener noreferrer">Open booking on ${e(venue.provider)} &nearr;<span class="sr-only"> (opens in a new tab)</span></a>`;
+    selected.innerHTML = `<p class="venue-provider">${e(venue.provider)} / ${e(venue.sport)}</p><h3>${e(venue.name)}</h3><p class="muted">${e(venue.note)}</p>${contact || '<p class="muted contact-unlisted">No attendant contact is listed yet. Check the venue provider for contact details.</p>'}${renderVenueSteps(venue)}<a class="primary-link" href="${e(venue.url)}" target="_blank" rel="noopener noreferrer">Open booking on ${e(venue.provider)} &nearr;<span class="sr-only"> (opens in a new tab)</span></a>`;
   }
   renderSelected();
   select.addEventListener("change", renderSelected);

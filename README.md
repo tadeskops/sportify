@@ -98,6 +98,13 @@ Blank values are not invented: no call link is shown and the picker directs
 users to the provider for contact details. Contacts also appear on fallback venue
 cards when supplied. More enabled venue entries automatically become picker options.
 
+Optional `bookingSteps` on a venue is a nonempty array of instruction strings.
+Steps appear for that selected venue in the picker and its fallback directory
+card, followed by a reminder to notify the game group once confirmed. The
+4 Lions instructions use the supplied PlaySpots route: venue, calendar date,
+Cricket > Cricket 6A, available slot, and advance payment/date-time confirmation.
+The shared 8-9:30 slot is not live availability; users must verify date and AM/PM.
+
 ## Source and structure
 
 - [General rules](assets/js/general.js): relevant shared rules and resident-led coordination.

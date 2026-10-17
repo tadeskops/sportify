@@ -36,6 +36,13 @@ export default {
       sport: "Football / turf",
       url: "https://book.playspots.in/venues/4-lions-academy-pimple",
       note: "A venue option shared by the community. Confirm the exact location, suitable format and travel time on the provider's listing before booking.",
+      bookingSteps: [
+        "Select the correct turf venue, for example 4 Lions Academy - Pimple Nilakh.",
+        "Select the date using the calendar icon.",
+        "Select Cricket, then Cricket 6A.",
+        "Select an available slot. The currently shared slot is 8-9:30; verify the date, AM/PM and live availability on PlaySpots.",
+        "Pay the required advance through the provider and confirm the booking date and time."
+      ],
       contact: {
         name: "",
         phone: ""

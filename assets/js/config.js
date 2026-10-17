@@ -34,6 +34,11 @@ export function validateConfig(config) {
     ids.add(venue.id);
     const url = new URL(venue.url);
     if (url.protocol !== "https:" || url.username || url.password) throw new Error("Venue links must use HTTPS without embedded credentials.");
+    if (venue.bookingSteps !== undefined &&
+        (!Array.isArray(venue.bookingSteps) || !venue.bookingSteps.length ||
+         venue.bookingSteps.some(step => typeof step !== "string" || !step.trim()))) {
+      throw new Error("Venue bookingSteps must be a nonempty array of nonempty text steps.");
+    }
     if (venue.contact !== undefined) {
       if (!venue.contact || typeof venue.contact.name !== "string" || typeof venue.contact.phone !== "string") {
         throw new Error("Venue contact must have name and phone strings, left empty when unavailable.");

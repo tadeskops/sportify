@@ -47,6 +47,13 @@ attendance/payment wording is preserved rather than silently rewritten.
 
 ## Design and interaction requirements
 
+- Venue-specific booking instructions for 4 Lions: select venue, calendar date,
+  Cricket > Cricket 6A, an available slot (user-shared 8-9:30; verify date,
+  AM/PM and live availability), then advance payment and date/time confirmation.
+  Remind the booker to notify the game group once confirmed. Show these five
+  steps directly in the selected venue and fallback card, configured through
+  optional validated `bookingSteps`; do not apply the Cricket route to other venues.
+
 - Desktop (>850px): sport selectors and rule search/Clear share one toolbar row,
   aligned at the bottom. At tablet/mobile widths stack them. Feature-disabled
   controls leave no empty column; search results stay below the toolbar.

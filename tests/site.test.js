@@ -10,7 +10,7 @@ import { generalRules } from "../assets/js/general.js";
 import { footballRules, footballSource } from "../assets/js/football.js";
 import { matchingRules, renderSections } from "../assets/js/rulebook.js";
 import { escapeHtml } from "../assets/js/dom.js";
-import { renderBookingGuide, renderContact, renderVenueDirectory } from "../assets/js/venues.js";
+import { renderBookingGuide, renderContact, renderVenueDirectory, renderVenueSteps } from "../assets/js/venues.js";
 import { build } from "../scripts/build.mjs";
 
 test("configuration validates booleans, names, URLs and appearance defaults", () => {
@@ -126,6 +126,19 @@ test("booking guidance keeps all four steps and respects monthly rotation", () =
   const withoutRotation = renderBookingGuide(false);
   assert.doesNotMatch(withoutRotation, /month's/);
   assert.match(withoutRotation, /Agree a session coordinator to check that/);
+});
+
+test("venue-specific provider steps show the five-step route and confirmation reminder", () => {
+  const html = renderVenueSteps(config.venues[0]);
+  assert.equal((html.match(/<li>/g) || []).length, 5);
+  for (const text of ["calendar icon", "Cricket, then Cricket 6A", "8-9:30", "AM/PM", "advance", "Notify the game group"]) assert.ok(html.includes(text));
+  assert.equal(renderVenueSteps({ provider: "Other venue" }), "");
+  assert.match(renderVenueSteps({ provider: "<test>", bookingSteps: ["<script>"] }), /&lt;script&gt;/);
+  for (const bookingSteps of [[], [" "], "invalid", [null]]) {
+    const changed = structuredClone(config);
+    changed.venues[0].bookingSteps = bookingSteps;
+    assert.throws(() => validateConfig(changed), /bookingSteps/);
+  }
 });
 
 test("one size preference scales typography without fixed-pixel font overrides", async () => {
