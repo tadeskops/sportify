@@ -35,6 +35,7 @@ repository configuration, not an in-browser admin editor or access control.
 | `monthlyRotation` | Monthly booking responsibility section and matching General guideline |
 | `venueBooking` | Venue information and booking guidance |
 | `bookingPicker` | "Book a turf" dialog with expandable booking steps; when off, a directory below the rules replaces it. Requires `venueBooking` and an enabled venue |
+| `gamePost` | "Post a game" header button and "Start a game list" joining-step button that compose the WhatsApp game-list message |
 | `football` | Football selector, content access and football deep links |
 | `search` | Rule search, result status and reset controls |
 | `sectionNavigation` | Rule-section contents navigation |
@@ -126,6 +127,113 @@ The turf booker is the game moderator and must recheck the listed player count
 24 hours before play to arrange necessary booking changes. A third deadline
 card highlights this duty alongside cancellation and payment reminders.
 
+## Post a game list to WhatsApp
+
+**Post a game** (header) and **Start a game list** (joining step 02) open a
+composer for the group's usual "copy this message, add your name and paste"
+list. Choose the sport, an optional game number, the venue (enabled venues by
+`shortName`, **TBD**, or a typed **Other** venue), whether it is already booked,
+one date (defaults to next Saturday) with probable start/end time or TBD,
+tentative-time flag, minimum/maximum counts and an optional note. A live
+preview shows the exact text.
+
+A game has exactly one date and time. The composer always has **Game 1**;
+**+ Add game** appends another game card (a copy of the previous one on the
+following day with the next game number, so only the differences need changing)
+and **Remove** deletes extra games. For Saturday and Sunday, add two games. All
+games go into one message, separated by a divider, each with its own `1. ` name
+list and counts. Game numbers must differ.
+
+When games fall on two or more dates, the message automatically starts with
+`⚠️ Add names with Day (i.e., Sat & Sun)` (or `Mon, Sat & Sun`, etc.). Each game
+ends with `Count stops at 8 🛑` directly followed by the divider:
+
+```text
+⚠️ Add names with Day (i.e., Sat & Sun)
+————————————-
+⚠️ Those who wish to join kindly copy this message, add your name and paste.
+——————————-
+Game 5: Cricket
+Venue: 4 Lions (Not booked)
+Date: 24 Oct Sat
+Time: 7:30-9 AM (1.5 Hrs)
+
+1. 
+
+🚨 Minimum count required to book the venue: 8 🛑
+Count stops at 8 🛑
+——————————-
+Game 6: Football
+...
+```
+
+The preview is an editable text box: type in it to change anything before
+sharing. Share and Copy always use the edited text. While edited, form changes
+no longer overwrite it; **Undo my edits** rebuilds the message from the form.
+
+**Share on WhatsApp** opens `https://wa.me/?text=...`: WhatsApp (app or Web)
+opens with the message pre-filled, the user picks the Sportify group and taps
+Send, so it is posted from their own account. WhatsApp offers no way for a
+website to pre-fill a message into a specific group or to post on a user's
+behalf; an invite link cannot carry text. **Copy message** plus **Open Sportify
+group** is the fallback. Nothing is stored or sent by the site.
+
+Defaults are in `config/site.js` under `gamePost` (validated):
+
+```js
+gamePost: {
+  defaultStart: "07:30", defaultEnd: "09:00",
+  sports: [{ id: "cricket", name: "Cricket", minPlayers: 8, maxPlayers: 8 }, /* ... */]
+}
+```
+
+Add or edit sports there; counts are editable per message in the composer.
+
+### Direct links (for the WhatsApp group description)
+
+- `https://tadeskops.github.io/sportify/#book-turf` opens the Book a turf picker
+  (or scrolls to the venue directory when `bookingPicker` is off).
+- `https://tadeskops.github.io/sportify/#post-game` opens the game-list composer.
+
+Closing the dialog clears the hash, so the same link can be tapped again.
+
+### Organiser guides (G7)
+
+The General rule book's **G7 Organise a game** section gives players precise
+steps, with action links:
+
+- `https://tadeskops.github.io/sportify/#G7.1`: how to prepare and post one or
+  more games on the WhatsApp group (links: Post a game, Open Sportify group).
+- `https://tadeskops.github.io/sportify/#G7.2`: how to book the turf once the
+  minimum count is reached (links: Book a turf, G3.3 booking management).
+
+Post the list first and book only after the minimum count is reached. The links
+come from `generalRules(features, { postGame, bookTurf, whatsapp })` in
+[app.js](assets/js/app.js); disabled features drop their links, and without the
+composer G7.1 describes the manual template.
+
+### Rule links (point players to a specific rule)
+
+Every section, sub-rule and point shows a reference badge. Tapping it copies a
+link such as `https://tadeskops.github.io/sportify/#G2.1`. Opening that link
+switches to the right rule book, expands the section and highlights the rule.
+Lower-case links (`#g2.1`) work too.
+
+| Prefix | Rule book | Example |
+| --- | --- | --- |
+| `G` | General (all sports) | `#G1.2` Guests, `#G2.1.1` |
+| `F` | Football | `#F1.1.2` Guest Players, `#F2.2.1` |
+| `C` | Cricket (reserved) | |
+| `B` | Badminton (reserved) | |
+| `T` | Table Tennis (reserved) | |
+
+`G` is used for General because it is not the initial of any sport. Each
+reference has the form section, then sub-rule, then point (`G2.1.3`). Football
+keeps its source numbering. General blocks carry explicit `number` fields in
+[general.js](assets/js/general.js), so optional content such as the join guide
+(G1.3) or monthly rotation (G3.2) never renumbers the rules around it. When you
+add a rule, give it the next unused number rather than renumbering existing ones.
+
 ## Source and structure
 
 - [General rules](assets/js/general.js): relevant shared rules and resident-led coordination.
@@ -134,6 +242,7 @@ card highlights this duty alongside cancellation and payment reminders.
 - [Styles](assets/css/site.css): responsive layout with shared dark/light tokens.
 - [Build](scripts/build.mjs): copies only `index.html`, `assets/`, and `config/`.
 - [Tests](tests/site.test.js): Node built-in runner; no install required.
+- [Game list composer](assets/js/game-post.js): pure message builder plus the "Post a game" dialog ([tests](tests/game-post.test.js)).
 
 The static site does not add names, book venues or collect payments. Residents
 join the WhatsApp group and add their own names to planned games for the

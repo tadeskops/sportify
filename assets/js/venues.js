@@ -1,4 +1,4 @@
-import { escapeHtml as e } from "./dom.js";
+import { escapeHtml as e, openFromLink } from "./dom.js";
 import { turfBookingGuidelines } from "./general.js";
 
 export function renderContact(contact) {
@@ -74,6 +74,7 @@ export function mountBookingPicker(venues, monthlyRotation) {
   }
   trigger.addEventListener("click", () => openBooking(trigger, false));
   guideTrigger?.addEventListener("click", () => openBooking(guideTrigger, true));
+  openFromLink(dialog, "#book-turf", () => openBooking(trigger, false));
   dialog.querySelector("#close-booking").addEventListener("click", () => dialog.close());
   dialog.addEventListener("keydown", event => {
     if (event.key === "Escape" && !event.defaultPrevented) {

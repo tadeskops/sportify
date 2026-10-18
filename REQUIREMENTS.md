@@ -1,6 +1,6 @@
 # Sportify rule-book website requirements
 
-Last updated: 17 October 2026
+Last updated: 18 October 2026
 
 ## Goal
 
@@ -16,6 +16,42 @@ Create a static community sports rule book for Sportify - The Address, Aundh-Ban
 - Archived concepts retain draft content and future sport previews. Production has General and Football rule books only; do not publish invented rules for other sports.
 - Use the supplied Sportify badge locally; do not edit the source artwork.
 - No booking, payments, login, or member tracking functionality is requested.
+- User-requested game-list composer (`features.gamePost`, 18 October 2026):
+  "Post a game" header button and "Start a game list" in joining step 02 open a
+  modal that builds the group's existing sign-up message. Inputs: sport
+  (configurable; Cricket, Football, Badminton, Table Tennis), optional game
+  number, venue ("Venue" replaces "Turf"; configured `shortName`, TBD or typed
+  Other), booked flag (never "Booked" for TBD), exactly one date per game
+  (default next Saturday) with probable start/end time (or TBD), shown as
+  separate "Date:" and "Time:" lines, tentative flag, minimum/maximum count
+  defaults per sport (editable) and an optional note. No quick-date buttons or
+  multiple dates per game. When the games fall on two or more dates, the
+  message starts with "⚠️ Add names with Day (i.e., …)" listing the game days
+  automatically in date order ("Sat & Sun", "Mon, Sat & Sun"; full dates if a
+  weekday repeats). Each game ends with "Count stops at N 🛑" (no sport name)
+  immediately followed by the divider, with no blank line. Always at least one game
+  (Game 1); "+ Add game" appends further games (copied from the previous one,
+  next day, next game number) and each extra game can be removed. One message contains
+  every game, separated by a divider, each with its own name list and counts;
+  duplicate game numbers are rejected and errors name the game. The preview is
+  an editable text box: manual edits are what Share/Copy send, form changes do
+  not overwrite them, and "Undo my edits" rebuilds from the form. Actions are
+  Share on WhatsApp (`https://wa.me/?text=`; the user selects the Sportify group
+  and sends from their own account), Copy message and Open Sportify group.
+  WhatsApp cannot pre-fill a specific group or post on a user's behalf, so the
+  site never sends, stores or tracks names. Counts appear only in the user's
+  composed message; they are not site policy or automatic cancellation.
+- Shareable deep links for the group description: `#book-turf` opens the turf
+  picker (directory fallback when the picker is disabled) and `#post-game` opens
+  the composer, on load or hash change; closing clears the hash.
+- General G7 "Organise a game" (user request): step-by-step guides G7.1 "Prepare
+  and post the game list" (composer steps, + Add game, automatic day line,
+  editable preview, Share/Copy to the group) and G7.2 "Book the turf" (book only
+  once the minimum count is reached, then update the list; moderation per
+  G3.3). Each guide shows links only for enabled features (`#post-game`, the
+  group invite, `#book-turf` or `#venues`, `#G3.3`); without the composer, G7.1
+  explains the manual template. Points stay ≤25 words; G7 has its own 230-word
+  budget separate from the 650-word General rules budget.
 - Photo booth: discover approved JPG/JPEG/PNG/WebP/AVIF files directly in
   `assets/photos/` at build time; no manual list. Show the booth and hero shortcut
   only when `features.photoBooth` is enabled and at least one unexpired photo
@@ -42,7 +78,7 @@ Create a static community sports rule book for Sportify - The Address, Aundh-Ban
 Moderator clarification: the game moderator is the person who booked the turf.
 They must recheck the listed player count 24 hours before play and arrange any
 necessary booking amendments. Highlight this in a third top deadline card
-(three columns on desktop, stacked on mobile) and the shared booking management
+(three columns at every width; compact small-type row with inline "24h" on mobile) and the shared booking management
 guidelines. Retain the insufficient-count cancellation deadline and group updates.
 
 Turf booking management: book one week in advance. The person who booked must
@@ -126,6 +162,7 @@ attendance/payment wording is preserved rather than silently rewritten.
 - The original six designs differ in composition and navigation, not just colours. The seventh is an intentional hybrid of Clubhouse and Gold Standard; the eighth is its light companion.
 - Production rule navigation switches between General and the full supplied Football rule book. Each supports section links and search.
 - Provide rule search with a clear result count and an empty state; preserve all content when the search is cleared.
+- Shareable rule identifiers: every section, sub-rule and point has a unique reference made of a book prefix and its number (section.sub-rule.point). Prefixes: `G` General (chosen because no sport starts with G), `F` Football, and reserved `C` Cricket, `B` Badminton, `T` Table Tennis. Football keeps its source numbering (F1.1.2 Guest Players). General uses explicit, stable numbers; optional blocks never shift others: How to join is last in Joining (G1.3), and monthly rotation is G3.2. Quote-only banners have no reference. Badges show the reference; tapping one copies the full link and announces it. `#G2.1`-style links (any case) switch book, expand, scroll to and highlight the rule. Search matches references. Duplicate references fail at load.
 - No external font, analytics, CDN, or backend dependencies. Use relative paths for GitHub Pages project hosting.
 - Demos remain clearly marked drafts. Production does not collect confirmations, payments or approvals.
 - Floating non-modal appearance rail shows dark/light gold and Standard/Larger reading size. Classic serif/Modern sans remains a configurable capability but is disabled in the approved UI. Remember preferences locally when enabled. Disabled controls must ignore stale saved choices.

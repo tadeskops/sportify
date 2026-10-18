@@ -4,6 +4,19 @@ export function escapeHtml(value) {
   })[char]);
 }
 
+// Shareable deep links such as ".../sportify/#post-game" open a dialog directly.
+// The hash is cleared on close so the same link works again in this tab.
+export function openFromLink(dialog, hash, open) {
+  const check = () => {
+    if (location.hash === hash && !dialog.open) open();
+  };
+  dialog.addEventListener("close", () => {
+    if (location.hash === hash) history.replaceState(null, "", location.pathname + location.search);
+  });
+  addEventListener("hashchange", check);
+  check();
+}
+
 export function icon(name) {
   const paths = {
     whatsapp: '<path d="M20.5 11.6a8.5 8.5 0 0 1-12.6 7.5L3 20.5l1.4-4.8A8.5 8.5 0 1 1 20.5 11.6Z"/><path d="M8 7.5c-.8.8-.4 3.2 1.8 5.4s4.6 2.6 5.4 1.8l.8-1.2-2.6-1.3-.9 1c-1.3-.5-2.8-2-3.3-3.3l1-.9L9 6.4Z"/>',

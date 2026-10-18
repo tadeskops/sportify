@@ -8,6 +8,7 @@ import { mountAppearance } from "./appearance.js";
 import { mountBackToTop } from "./back-to-top.js";
 import { mountPhotoBooth } from "./photo-booth.js";
 import { mountBookingPicker, renderVenueDirectory } from "./venues.js";
+import { mountGamePost } from "./game-post.js";
 
 function renderSite() {
   const { community: c, features: f, links } = config;
@@ -23,7 +24,7 @@ function renderSite() {
       <header class="site-header">
         <a class="brand" href="./" aria-label="${e(c.name)} home"><img src="${badge}" width="52" height="52" alt=""><span>${e(c.name)}<small>${e(c.address)}</small></span></a>
         <div class="address-brand"><img src="${addressLogo}" width="38" height="38" alt="The Address logo"><span><strong>${e(c.address)}</strong><small>${e(c.location)}</small></span></div>
-        <div class="header-actions">${f.bookingPicker && venues.length ? `<button type="button" class="book-turf" id="book-turf" aria-haspopup="dialog" aria-controls="booking-dialog">${icon("calendar")}<span>Book a turf</span></button>` : ""}<a class="header-link" href="${f.join ? "#join" : "#rule-book"}">${f.join ? "Join the next game" : "Read the rule book"} &nearr;</a></div>
+        <div class="header-actions">${f.gamePost ? `<button type="button" class="post-game" id="post-game" data-post-game aria-haspopup="dialog" aria-controls="post-game-dialog">${icon("whatsapp")}<span>Post a game</span></button>` : ""}${f.bookingPicker && venues.length ? `<button type="button" class="book-turf" id="book-turf" aria-haspopup="dialog" aria-controls="booking-dialog">${icon("calendar")}<span>Book a turf</span></button>` : ""}<a class="header-link" href="${f.join ? "#join" : "#rule-book"}">${f.join ? "Join the next game" : "Read the rule book"} &nearr;</a></div>
       </header>
       <main id="main">
         <section class="hero" aria-labelledby="page-title">
@@ -44,7 +45,7 @@ function renderSite() {
           ${f.search ? '<p class="search-status muted" id="search-status" role="status" aria-live="polite"></p>' : ""}
           <div class="reading-layout${f.sectionNavigation ? "" : " full-width"}">${f.sectionNavigation ? '<nav class="contents" id="rule-contents" aria-label="Rule sections"></nav>' : ""}<div><div id="rules"></div><div id="empty-state" class="empty-state" hidden><h3>No matching rules</h3><p>Try a broader search or clear it to see all sections.</p>${f.search ? '<button type="button" id="reset-search">Show all rules</button>' : ""}</div></div></div>
         </section>
-        ${f.join ? `<section class="join-section" id="join" aria-labelledby="join-title"><div class="section-intro"><p class="eyebrow">START HERE</p><h2 id="join-title">How to join a game</h2></div><ol class="join-steps"><li><span class="step">01</span><h3>Join the WhatsApp group</h3>${whatsappEnabled ? whatsappLink("Join Sportify", "inline-social") : '<p>Ask a resident coordinator for group access.</p>'}</li><li><span class="step">02</span><h3>Choose next week's game</h3><p>Check the planned games for the following week: sport, venue, date, time, places and contribution.</p></li><li><span class="step">03</span><h3>Confirm your place</h3><p>Add your own name to the Main List only when confirmed to play. Unsure or full? Use the Waitlist.</p></li></ol><p class="join-note">Joining the group does not reserve a place. Wait for confirmation if you are waitlisted.</p></section>` : ""}
+        ${f.join ? `<section class="join-section" id="join" aria-labelledby="join-title"><div class="section-intro"><p class="eyebrow">START HERE</p><h2 id="join-title">How to join a game</h2></div><ol class="join-steps"><li><span class="step">01</span><h3>Join the WhatsApp group</h3>${whatsappEnabled ? whatsappLink("Join Sportify", "inline-social") : '<p>Ask a resident coordinator for group access.</p>'}</li><li><span class="step">02</span><h3>Choose next week's game</h3><p>Check the planned games for the following week: sport, venue, date, time, places and contribution.</p>${f.gamePost ? '<button type="button" class="inline-post" data-post-game aria-haspopup="dialog" aria-controls="post-game-dialog">Start a game list &nearr;</button>' : ""}</li><li><span class="step">03</span><h3>Confirm your place</h3><p>Add your own name to the Main List only when confirmed to play. Unsure or full? Use the Waitlist.</p></li></ol><p class="join-note">Joining the group does not reserve a place. Wait for confirmation if you are waitlisted.</p></section>` : ""}
         ${venues.length && !f.bookingPicker ? renderVenueDirectory(venues, f.monthlyRotation) : ""}
         ${f.photoBooth ? '<div id="photo-booth"></div>' : ""}
         <section class="closing"><img class="closing-address" src="${addressLogo}" width="45" height="45" alt="The Address logo"><p class="eyebrow">OUR SHARED PROMISE</p><h2>Respect the time.<br>Enjoy the game.</h2><p>Show up. Play fair. Look out for each other.</p><a href="#page-title">Back to top &uarr;</a></section>
@@ -52,10 +53,16 @@ function renderSite() {
       </main>
       <footer><div class="footer-identity"><img src="${addressLogo}" width="30" height="30" alt=""><span>${e(c.name)} <small>${e(c.address)} &middot; ${e(c.location)}</small></span></div>${showSocialLinks ? `<nav class="social-links" aria-label="Community social links">${whatsappEnabled ? whatsappLink("Sportify WhatsApp") : ""}${f.instagram ? `<a href="${e(links.instagram)}" target="_blank" rel="noopener noreferrer">${icon("instagram")}<span>The Address Instagram</span><span class="sr-only"> (opens in a new tab)</span></a>` : ""}</nav>` : ""}<p class="footer-note">Updated ${e(c.updated)}</p></footer>
     </div><p id="preference-status" class="preference-status" role="status" aria-live="polite"></p>`;
-  mountRulebook({ general: generalRules(f), football: footballRules, config });
+  mountRulebook({ general: generalRules(f, {
+    postGame: f.gamePost,
+    bookTurf: venues.length ? (f.bookingPicker ? "#book-turf" : "#venues") : "",
+    whatsapp: whatsappEnabled ? links.whatsapp : ""
+  }), football: footballRules, config });
   mountAppearance(config);
   if (f.backToTop) mountBackToTop();
   mountBookingPicker(venues, f.monthlyRotation);
+  if (location.hash === "#book-turf" && !document.getElementById("booking-dialog") && document.getElementById("venues")) location.replace("#venues");
+  if (f.gamePost) mountGamePost(config, venues);
   mountPhotoBooth(config);
 }
 

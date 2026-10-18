@@ -1,5 +1,5 @@
 export const featureNames = [
-  "join", "monthlyRotation", "venueBooking", "bookingPicker", "football", "search", "sectionNavigation",
+  "join", "monthlyRotation", "venueBooking", "bookingPicker", "gamePost", "football", "search", "sectionNavigation",
   "appearance", "themePicker", "fontPicker", "textSize", "rememberPreferences",
   "socialLinks", "whatsapp", "instagram", "backToTop", "photoBooth"
 ];
@@ -32,6 +32,9 @@ export function validateConfig(config) {
     }
     if (!/^[a-z0-9-]+$/.test(venue.id) || ids.has(venue.id)) throw new Error("Venue IDs must be unique lowercase slugs.");
     ids.add(venue.id);
+    if (venue.shortName !== undefined && (typeof venue.shortName !== "string" || !venue.shortName.trim())) {
+      throw new Error("Venue shortName must be nonempty text when provided.");
+    }
     const url = new URL(venue.url);
     if (url.protocol !== "https:" || url.username || url.password) throw new Error("Venue links must use HTTPS without embedded credentials.");
     if (venue.bookingSteps !== undefined &&
@@ -46,6 +49,22 @@ export function validateConfig(config) {
       if (venue.contact.phone && !/^\+[1-9]\d{6,14}$/.test(venue.contact.phone)) {
         throw new Error("Venue contact phone must be international format, such as + followed by country code and digits.");
       }
+    }
+  }
+  const post = config.gamePost;
+  const time = /^([01]\d|2[0-3]):[0-5]\d$/;
+  if (!post || !time.test(post.defaultStart) || !time.test(post.defaultEnd) || post.defaultEnd <= post.defaultStart) {
+    throw new Error("gamePost needs HH:MM defaultStart and a later defaultEnd.");
+  }
+  if (!Array.isArray(post.sports) || !post.sports.length) throw new Error("gamePost.sports must be a nonempty array.");
+  const sportIds = new Set();
+  for (const sport of post.sports) {
+    if (!/^[a-z0-9-]+$/.test(sport?.id) || sportIds.has(sport.id)) throw new Error("gamePost sport IDs must be unique lowercase slugs.");
+    sportIds.add(sport.id);
+    if (typeof sport.name !== "string" || !sport.name.trim()) throw new Error("gamePost sport name must be nonempty text.");
+    if (!Number.isInteger(sport.minPlayers) || sport.minPlayers < 1 ||
+        !Number.isInteger(sport.maxPlayers) || sport.maxPlayers < sport.minPlayers) {
+      throw new Error(`gamePost ${sport.id} needs whole-number minPlayers >= 1 and maxPlayers >= minPlayers.`);
     }
   }
   if (!["dark", "light"].includes(config.appearance?.defaultTheme)) throw new Error("Invalid default theme.");

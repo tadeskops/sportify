@@ -45,7 +45,7 @@ export const footballRules = [
     id: "substitution", title: "4. Substitution System", caption: "Captain-managed, fair rotations",
     blocks: [
       { title: "4.1 Rotation Method", bullets: ["Substitutions occur every 5 minutes in a cyclic rotation", "Team captains manage the rotation sequence", "Players receive a sequence number (1–6) upon first substitution", "All players rotate in numerical order", "Unlimited substitutions per match", "Players may re-substituted only after all 6 complete one full rotation"] },
-      { title: "Alternative Option:", paragraphs: ["Players preferring a single substitution should inform the captain before kickoff and will play one 15-minute shift"] },
+      { number: "4.1.7", title: "Alternative Option:", paragraphs: ["Players preferring a single substitution should inform the captain before kickoff and will play one 15-minute shift"] },
       { title: "4.2 Requesting Substitution", paragraphs: ["Step 1: Raise your hand or wave to the captain", "Step 2: Exit the field immediately when acknowledged", "Step 3: If you feel the substitution timing was unfair, speak with your team captain after exiting"] },
       { title: "4.3 Late Arrivals", paragraphs: ["Players arriving after kickoff begin on the sideline and enter via the rotation system"] },
       { title: "4.4 On-Field Conduct", bullets: ["Resolve all disputes off the field", "Injury substitutions permitted at any time"] }

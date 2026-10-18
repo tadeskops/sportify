@@ -14,6 +14,7 @@ export default {
     monthlyRotation: true,
     venueBooking: true,
     bookingPicker: true,
+    gamePost: true,
     football: true,
     search: true,
     sectionNavigation: true,
@@ -33,6 +34,7 @@ export default {
       id: "four-lions",
       enabled: true,
       name: "4 Lions Academy - Pimple Nilakh",
+      shortName: "4 Lions",
       provider: "PlaySpots",
       sport: "Football / turf",
       url: "https://book.playspots.in/venues/4-lions-academy-pimple",
@@ -50,6 +52,16 @@ export default {
       }
     }
   ],
+  gamePost: {
+    defaultStart: "07:30",
+    defaultEnd: "09:00",
+    sports: [
+      { id: "cricket", name: "Cricket", minPlayers: 8, maxPlayers: 8 },
+      { id: "football", name: "Football", minPlayers: 8, maxPlayers: 10 },
+      { id: "badminton", name: "Badminton", minPlayers: 4, maxPlayers: 6 },
+      { id: "table-tennis", name: "Table Tennis", minPlayers: 2, maxPlayers: 4 }
+    ]
+  },
   photoBooth: {
     autoRotate: true,
     intervalMs: 6000
