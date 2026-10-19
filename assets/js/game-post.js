@@ -60,18 +60,21 @@ function validateGame({ sport, date, start, end, minPlayers, maxPlayers }) {
   parseDate(date);
   if (Boolean(start) !== Boolean(end)) throw new Error("Enter both start and end time, or leave both empty for time TBD.");
   if (start) formatTimeRange(start, end);
-  if (!Number.isInteger(minPlayers) || minPlayers < 1) throw new Error("Minimum count must be a whole number of at least 1.");
-  if (!Number.isInteger(maxPlayers) || maxPlayers < minPlayers) throw new Error("Maximum count must be at least the minimum count.");
+  if (minPlayers != null && (!Number.isInteger(minPlayers) || minPlayers < 1)) throw new Error("Minimum count must be a whole number of at least 1, or left empty.");
+  if (!Number.isInteger(maxPlayers) || maxPlayers < 1) throw new Error("Count stops at must be a whole number of at least 1.");
+  if (minPlayers != null && maxPlayers < minPlayers) throw new Error("Count stops at must be at least the minimum count.");
 }
 
+// The minimum line is only printed for unbooked games when a minimum is given.
 function gameLines({ sport, gameNumber, venue, booked, date, start, end, tentative, minPlayers, maxPlayers, note }) {
   const venueName = venue?.trim() || "TBD";
+  const isBooked = Boolean(booked) && venueName !== "TBD";
   const lines = [`${gameNumber ? `Game ${gameNumber}` : "Game"}: ${sport.name}`];
-  lines.push(`Venue: ${venueName} (${booked && venueName !== "TBD" ? "Booked" : "Not booked"})`);
+  lines.push(`Venue: ${venueName} (${isBooked ? "Booked" : "Not booked"})`);
   lines.push(...formatSlot({ date, start, end }, tentative));
   if (note?.trim()) lines.push(note.trim());
   lines.push("", "1. ", "");
-  lines.push(`🚨 Minimum count required to book the venue: ${minPlayers} 🛑`);
+  if (minPlayers != null && !isBooked) lines.push(`🚨 Minimum count required to book the venue: ${minPlayers} 🛑`);
   lines.push(`Count stops at ${maxPlayers} 🛑`);
   return lines;
 }
@@ -131,7 +134,7 @@ function nextDay(iso) {
 function gameCard(game, index, total, sports, venues) {
   const id = `g${index}`;
   const option = (value, label, selected) => `<option value="${e(value)}"${selected ? " selected" : ""}>${e(label)}</option>`;
-  return `<section class="game-card" data-game aria-labelledby="${id}-title">
+  return `<section class="game-card" data-game data-booked="${game.booked ? "true" : "false"}" aria-labelledby="${id}-title">
     <div class="game-card-head"><h3 id="${id}-title">Game ${index + 1}</h3>${total > 1 ? `<button type="button" class="remove-game" data-remove-game aria-label="Remove game ${index + 1}">Remove</button>` : ""}</div>
     <div class="form-pair">
       <div><label for="${id}-sport">Sport</label><select id="${id}-sport" data-field="sport">${sports.map(sport => option(sport.id, sport.name, sport.id === game.sport)).join("")}</select></div>
@@ -150,7 +153,7 @@ function gameCard(game, index, total, sports, venues) {
       <label class="check"><input data-field="tentative" type="checkbox"${game.tentative ? " checked" : ""}> Time is tentative</label>
     </fieldset>
     <div class="form-pair">
-      <div><label for="${id}-min">Minimum to book</label><input id="${id}-min" data-field="min" type="number" min="1" step="1" inputmode="numeric" required value="${e(game.min)}"></div>
+      <div><label for="${id}-min">Minimum to book <small>(optional)</small></label><input id="${id}-min" data-field="min" type="number" min="1" step="1" inputmode="numeric" placeholder="${game.booked ? "Booked" : "None"}" value="${e(game.booked ? "" : game.min)}"${game.booked ? " disabled" : ""}></div>
       <div><label for="${id}-max">Count stops at</label><input id="${id}-max" data-field="max" type="number" min="1" step="1" inputmode="numeric" required value="${e(game.max)}"></div>
     </div>
     <label for="${id}-note">Extra note <small>(optional)</small></label>
@@ -236,6 +239,14 @@ export function mountGamePost(config, venues) {
       const booked = card.querySelector('[data-field="booked"]');
       booked.disabled = !venueName(game).trim();
       if (booked.disabled) { booked.checked = false; game.booked = false; }
+      const min = card.querySelector('[data-field="min"]');
+      if (String(game.booked) !== card.dataset.booked) {
+        min.value = game.booked ? "" : sportById(game.sport).minPlayers;
+        game.min = min.value;
+        card.dataset.booked = String(game.booked);
+      }
+      min.disabled = game.booked;
+      min.placeholder = game.booked ? "Booked" : "None";
     });
   }
 
@@ -270,7 +281,7 @@ export function mountGamePost(config, venues) {
         start: game.start,
         end: game.end,
         tentative: game.tentative,
-        minPlayers: Number(game.min),
+        minPlayers: game.booked || String(game.min).trim() === "" ? null : Number(game.min),
         maxPlayers: Number(game.max),
         note: game.note
       })));
@@ -292,7 +303,8 @@ export function mountGamePost(config, venues) {
     if (event.target.dataset.field === "sport") {
       const card = event.target.closest("[data-game]");
       const sport = sportById(event.target.value);
-      card.querySelector('[data-field="min"]').value = sport.minPlayers;
+      const booked = card.querySelector('[data-field="booked"]').checked;
+      card.querySelector('[data-field="min"]').value = booked ? "" : sport.minPlayers;
       card.querySelector('[data-field="max"]').value = sport.maxPlayers;
     }
     update();

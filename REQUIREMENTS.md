@@ -24,7 +24,11 @@ Create a static community sports rule book for Sportify - The Address, Aundh-Ban
   Other), booked flag (never "Booked" for TBD), exactly one date per game
   (default next Saturday) with probable start/end time (or TBD), shown as
   separate "Date:" and "Time:" lines, tentative flag, minimum/maximum count
-  defaults per sport (editable) and an optional note. No quick-date buttons or
+  defaults per sport (editable) and an optional note. The minimum is optional:
+  the "🚨 Minimum count required to book the venue" line is printed only when a
+  minimum is given and the venue is not booked. Unbooked games prefill the
+  sport's default minimum (clear it to omit the line); ticking "Venue already
+  booked" clears and disables it, unticking refills the default. No quick-date buttons or
   multiple dates per game. When the games fall on two or more dates, the
   message starts with "⚠️ Add names with Day (i.e., …)" listing the game days
   automatically in date order ("Sat & Sun", "Mon, Sat & Sun"; full dates if a

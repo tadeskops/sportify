@@ -78,6 +78,20 @@ test("time and date formatting handles meridiem, durations and invalid input", (
   assert.throws(() => formatDateLabel("2026-02-30"), /valid date/);
   assert.throws(() => buildGameMessage({ ...base, date: "2026-10-24", start: "09:00", end: "07:30" }), /after the start/);
   assert.throws(() => buildGameMessage({ ...base, maxPlayers: 4, date: "2026-10-24" }), /at least the minimum/);
+  assert.throws(() => buildGameMessage({ ...base, minPlayers: 0, date: "2026-10-24" }), /or left empty/);
+});
+
+test("minimum count line is optional and dropped once the venue is booked", () => {
+  const minLine = /Minimum count required/;
+  const at = { ...base, date: "2026-10-24", start: "07:30", end: "09:00" };
+  assert.match(buildGameMessage(at), minLine);
+  const none = buildGameMessage({ ...at, minPlayers: null });
+  assert.doesNotMatch(none, minLine);
+  assert.match(none, /1\. \n\nCount stops at 8 🛑$/);
+  const booked = buildGameMessage({ ...at, booked: true });
+  assert.match(booked, /Venue: 4 Lions \(Booked\)/);
+  assert.doesNotMatch(booked, minLine);
+  assert.match(buildGameMessage({ ...at, venue: "", booked: true }), minLine);
 });
 
 test("share link and next Saturday helper", () => {

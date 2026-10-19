@@ -134,8 +134,13 @@ composer for the group's usual "copy this message, add your name and paste"
 list. Choose the sport, an optional game number, the venue (enabled venues by
 `shortName`, **TBD**, or a typed **Other** venue), whether it is already booked,
 one date (defaults to next Saturday) with probable start/end time or TBD,
-tentative-time flag, minimum/maximum counts and an optional note. A live
-preview shows the exact text.
+tentative-time flag, an optional minimum count, the count stop and an optional
+note. A live preview shows the exact text.
+
+The minimum line (`🚨 Minimum count required to book the venue: 8 🛑`) appears
+only for games that are not booked yet. Unbooked games prefill the sport's
+default minimum; clear the field to leave the line out. Ticking **Venue already
+booked** clears and disables the minimum, since it is no longer needed.
 
 A game has exactly one date and time. The composer always has **Game 1**;
 **+ Add game** appends another game card (a copy of the previous one on the
