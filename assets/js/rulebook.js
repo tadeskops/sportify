@@ -116,7 +116,7 @@ export function mountRulebook({ general, football, config }) {
     const matching = matchingRules(sections, query);
     heading.textContent = isFootball ? "Football rule book" : "One place for the ground rules.";
     description.textContent = isFootball
-      ? `Football-specific rules (F). The general (G) joining and resident-led coordination guidelines also apply. Tap a rule number to copy its link.`
+      ? `Football-specific rules (F). The general (G) rules, including inclusive play and conduct, also apply. Tap a rule number to copy its link.`
       : "Shared rules for all pre-booked sports (G). Open a section or search below; tap a rule number to copy its link.";
     rules.innerHTML = renderSections(matching, active);
     if (query.trim()) rules.querySelectorAll("details").forEach(item => { item.open = true; });

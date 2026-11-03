@@ -129,7 +129,11 @@ The `venues` array contains community-shared booking listings. Each requires a
 unique lowercase slug `id`, boolean `enabled`, and `name`, `provider`, `sport`,
 HTTPS `url` and `note` text. Add verified listings here or disable an individual
 entry. If no entries are enabled, booking controls and the directory are
-omitted. The initial listing is the user-supplied 4 Lions Academy PlaySpots URL.
+omitted. The initial listing is the user-supplied 4 Lions Academy PlaySpots URL;
+Sportygen badminton courts at Aundh and Sanewadi (book.sportygen.in) are also
+listed. An optional `sports` array of `gamePost` sport IDs limits which sports
+offer the venue in the game-list composer (omit it to offer it for every sport);
+the booking picker groups venues by their `sport` label.
 No rates, live availability or facility guarantees are hard-coded; residents
 confirm location, format, price and cancellation terms directly before booking.
 
@@ -189,14 +193,16 @@ and **Remove** deletes extra games. For Saturday and Sunday, add two games. All
 games go into one message, separated by a divider, each with its own `1. ` name
 list and counts. Game numbers must differ.
 
-When games fall on two or more dates, the message automatically starts with
-`⚠️ Add names with Day (i.e., Sat & Sun)` (or `Mon, Sat & Sun`, etc.). Each game
+Every message starts with `⚠️ Add names for Sat game` for a single game, or
+`⚠️ Add names for Sat & Sun games` for multiple games. Selected days appear in
+date order without duplicates, using full dates when a weekday repeats on
+different dates. Multiple games on one Saturday use `Sat games`. Each game
 ends with `Count stops at 8 🛑` directly followed by the divider:
 
 ```text
-⚠️ Add names with Day (i.e., Sat & Sun)
-————————————-
-⚠️ Those who wish to join kindly copy this message, add your name and paste.
+⚠️ Add names for Sat & Sun games
+_________________________
+Those who wish to join kindly copy this message, add your name and paste.
 ——————————-
 Game 5: Cricket
 Venue: 4 Lions (Not booked)

@@ -99,9 +99,12 @@ export function buildGamesMessage(games) {
   });
   const numbers = games.map(game => String(game.gameNumber ?? "").trim()).filter(Boolean);
   if (new Set(numbers).size !== numbers.length) throw new Error("Each game needs a different game number.");
-  const lines = [];
-  if (new Set(games.map(game => game.date)).size > 1) lines.push(`⚠️ Add names with Day (i.e., ${gameDays(games.map(game => game.date))})`, "————————————-");
-  lines.push("⚠️ Those who wish to join kindly copy this message, add your name and paste.", divider);
+  const lines = [
+    `⚠️ Add names for ${gameDays(games.map(game => game.date))} ${games.length === 1 ? "game" : "games"}`,
+    "_________________________",
+    "Those who wish to join kindly copy this message, add your name and paste.",
+    divider
+  ];
   games.forEach((game, index) => {
     if (index) lines.push(divider);
     lines.push(...gameLines(game));
@@ -131,9 +134,19 @@ function nextDay(iso) {
   return toIso(date);
 }
 
+const option = (value, label, selected) => `<option value="${e(value)}"${selected ? " selected" : ""}>${e(label)}</option>`;
+
+// Venues without a `sports` list are offered for every sport.
+export function venuesForSport(venues, sportId) {
+  return venues.filter(venue => !venue.sports || venue.sports.includes(sportId));
+}
+
+function venueOptions(game, venues) {
+  return `${option("", "TBD (not decided yet)", !game.venue)}${venuesForSport(venues, game.sport).map(venue => option(venue.id, venue.shortName || venue.name, venue.id === game.venue)).join("")}${option("other", "Other venue...", game.venue === "other")}`;
+}
+
 function gameCard(game, index, total, sports, venues) {
   const id = `g${index}`;
-  const option = (value, label, selected) => `<option value="${e(value)}"${selected ? " selected" : ""}>${e(label)}</option>`;
   return `<section class="game-card" data-game data-booked="${game.booked ? "true" : "false"}" aria-labelledby="${id}-title">
     <div class="game-card-head"><h3 id="${id}-title">Game ${index + 1}</h3>${total > 1 ? `<button type="button" class="remove-game" data-remove-game aria-label="Remove game ${index + 1}">Remove</button>` : ""}</div>
     <div class="form-pair">
@@ -141,7 +154,7 @@ function gameCard(game, index, total, sports, venues) {
       <div><label for="${id}-number">Game number <small>(optional)</small></label><input id="${id}-number" data-field="number" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g. 5" value="${e(game.number)}"></div>
     </div>
     <label for="${id}-venue">Venue</label>
-    <select id="${id}-venue" data-field="venue">${option("", "TBD (not decided yet)", !game.venue)}${venues.map(venue => option(venue.id, venue.shortName || venue.name, venue.id === game.venue)).join("")}${option("other", "Other venue...", game.venue === "other")}</select>
+    <select id="${id}-venue" data-field="venue">${venueOptions(game, venues)}</select>
     <div data-other-row${game.venue === "other" ? "" : " hidden"}><label for="${id}-venue-other">Venue name</label><input id="${id}-venue-other" data-field="venueOther" type="text" maxlength="60" autocomplete="off" value="${e(game.venueOther)}"></div>
     <label class="check"><input data-field="booked" type="checkbox"${game.booked ? " checked" : ""}> Venue already booked</label>
     <fieldset class="slots"><legend>Date &amp; probable time</legend>
@@ -306,6 +319,9 @@ export function mountGamePost(config, venues) {
       const booked = card.querySelector('[data-field="booked"]').checked;
       card.querySelector('[data-field="min"]').value = booked ? "" : sport.minPlayers;
       card.querySelector('[data-field="max"]').value = sport.maxPlayers;
+      const venue = card.querySelector('[data-field="venue"]');
+      const allowed = venue.value === "other" || venuesForSport(venues, sport.id).some(item => item.id === venue.value);
+      venue.innerHTML = venueOptions({ sport: sport.id, venue: allowed ? venue.value : "" }, venues);
     }
     update();
   });

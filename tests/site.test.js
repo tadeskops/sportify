@@ -156,6 +156,21 @@ test("organise-a-game guides explain posting and booking with only enabled links
   assert.equal(directory.blocks[1].links[0].href, "#venues");
 });
 
+test("general rules require an inclusive environment and equal playing chances", () => {
+  const general = indexRules(generalRules(config.features), "G");
+  const conduct = general.find(section => section.id === "safety").blocks.find(block => block.ref === "G5.3");
+  assert.equal(conduct.title, "Inclusive environment");
+  assert.match(conduct.bullets.join(" "), /regardless of gender.*No gender-based remarks/s);
+  const law = general.find(section => section.id === "safety").blocks.find(block => block.ref === "G5.4");
+  assert.match(law.bullets.join(" "), /offences under Indian law.*without their consent.*police/s);
+  const equal = general.find(section => section.id === "rotation").blocks.find(block => block.ref === "G6.2");
+  assert.equal(equal.title, "Equal chance for everyone");
+  assert.match(equal.bullets.join(" "), /irrespective of gender, skill or experience.*never decided by gender or ability/s);
+  assert.deepEqual(matchingRules(general, "gender").map(section => section.id), ["safety", "rotation"]);
+  // Added blocks must not renumber existing rules.
+  assert.equal(general.find(section => section.id === "rotation").blocks[0].points[5].ref, "G6.1.6");
+});
+
 test("general guidelines use concise, nonduplicated points", () => {
   for (const links of [{}, { postGame: true, bookTurf: "#book-turf", whatsapp: config.links.whatsapp }]) {
     const sections = generalRules(config.features, links);
@@ -165,7 +180,7 @@ test("general guidelines use concise, nonduplicated points", () => {
     assert.equal(new Set(points).size, points.length);
     for (const point of points) assert.ok(point.split(/\s+/).length <= 25, point);
     // Rules stay short; the step-by-step organise guides (G7) have their own budget.
-    assert.ok(words(pointsOf(sections.filter(section => section.id !== "organise"))) <= 650);
+    assert.ok(words(pointsOf(sections.filter(section => section.id !== "organise"))) <= 800);
     assert.ok(words(pointsOf(sections.filter(section => section.id === "organise"))) <= 230);
   }
 });

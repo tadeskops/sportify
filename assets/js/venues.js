@@ -23,7 +23,7 @@ export function renderBookingGuide(monthlyRotation) {
 
 export function renderVenueDirectory(venues, monthlyRotation) {
   return `<section class="venues-section" id="venues" aria-labelledby="venues-title">
-    <p class="eyebrow">FIND A PLACE TO PLAY</p><h2 id="venues-title">Where to book a turf.</h2>
+    <p class="eyebrow">FIND A PLACE TO PLAY</p><h2 id="venues-title">Where to book a turf or court.</h2>
     <p class="muted">Community-shared venue options. Booking happens on the provider's site, not on Sportify.</p>
     <div class="venue-grid">${venues.map(venue => `<article class="venue-card">
       <p class="eyebrow">${e(venue.provider)} / ${e(venue.sport)}</p><h3>${e(venue.name)}</h3>
@@ -44,10 +44,11 @@ export function mountBookingPicker(venues, monthlyRotation) {
   dialog.className = "booking-dialog";
   dialog.setAttribute("aria-labelledby", "booking-title");
   dialog.setAttribute("aria-describedby", "booking-description");
-  dialog.innerHTML = `<div class="panel-heading"><h2 id="booking-title">Find your next turf</h2><button type="button" id="close-booking" aria-label="Close turf picker">&times;</button></div>
-    <p id="booking-description" class="muted">Choose a turf, then book on the provider's site. Sportify does not reserve slots.</p>
-    <label for="turf-select">Select a turf</label>
-    <select id="turf-select">${venues.map(venue => `<option value="${e(venue.id)}">${e(venue.name)}</option>`).join("")}</select>
+  const groups = [...new Set(venues.map(venue => venue.sport))];
+  dialog.innerHTML = `<div class="panel-heading"><h2 id="booking-title">Find your next turf or court</h2><button type="button" id="close-booking" aria-label="Close venue picker">&times;</button></div>
+    <p id="booking-description" class="muted">Choose a turf or court, then book on the provider's site. Sportify does not reserve slots.</p>
+    <label for="turf-select">Select a turf or court</label>
+    <select id="turf-select">${groups.map(sport => `<optgroup label="${e(sport)}">${venues.filter(venue => venue.sport === sport).map(venue => `<option value="${e(venue.id)}">${e(venue.name)}</option>`).join("")}</optgroup>`).join("")}</select>
     <div id="selected-venue" aria-live="polite"></div>
     <details class="booking-help"><summary>Turf booking management</summary>${renderBookingGuide(monthlyRotation)}</details>`;
   document.body.append(dialog);
@@ -57,7 +58,7 @@ export function mountBookingPicker(venues, monthlyRotation) {
     const venue = venues.find(item => item.id === select.value);
     if (!venue) {
       console.error("[Sportify booking] Selected venue is not in the enabled list.");
-      selected.innerHTML = '<p role="alert">This venue is unavailable. Please select a listed turf.</p>';
+      selected.innerHTML = '<p role="alert">This venue is unavailable. Please select a listed turf or court.</p>';
       return;
     }
     const contact = renderContact(venue.contact);

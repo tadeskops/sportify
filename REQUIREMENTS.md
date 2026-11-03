@@ -29,10 +29,11 @@ Create a static community sports rule book for Sportify - The Address, Aundh-Ban
   minimum is given and the venue is not booked. Unbooked games prefill the
   sport's default minimum (clear it to omit the line); ticking "Venue already
   booked" clears and disables it, unticking refills the default. No quick-date buttons or
-  multiple dates per game. When the games fall on two or more dates, the
-  message starts with "⚠️ Add names with Day (i.e., …)" listing the game days
-  automatically in date order ("Sat & Sun", "Mon, Sat & Sun"; full dates if a
-  weekday repeats). Each game ends with "Count stops at N 🛑" (no sport name)
+  multiple dates per game. Every message starts with "⚠️ Add names for Sat game"
+  for one game or "⚠️ Add names for Sat & Sun games" for multiple games, using
+  the selected days in date order without duplicates (full dates if a weekday
+  repeats on different dates). Follow with an underscore separator and the
+  invitation without a warning icon. Each game ends with "Count stops at N 🛑" (no sport name)
   immediately followed by the divider, with no blank line. Always at least one game
   (Game 1); "+ Add game" appends further games (copied from the previous one,
   next day, next game number) and each extra game can be removed. One message contains
@@ -55,7 +56,8 @@ Create a static community sports rule book for Sportify - The Address, Aundh-Ban
   G3.3). Each guide shows links only for enabled features (`#post-game`, the
   group invite, `#book-turf` or `#venues`, `#G3.3`); without the composer, G7.1
   explains the manual template. Points stay ≤25 words; G7 has its own 230-word
-  budget separate from the 650-word General rules budget.
+  budget separate from the 800-word General rules budget (raised from 650 for the
+  inclusion, respect and privacy rules).
 - Photo booth: discover approved JPG/JPEG/PNG/WebP/AVIF files directly in
   `assets/photos/` at build time; no manual list. Show the booth and hero shortcut
   only when `features.photoBooth` is enabled and at least one unexpired photo
@@ -76,6 +78,29 @@ Create a static community sports rule book for Sportify - The Address, Aundh-Ban
   Removing images does not erase old Git history, artifacts, caches or downloads.
   Publish consented photos only, with private/GPS metadata removed; no public
   upload backend is included.
+
+## Sticker Design History
+
+- Originally local-only sports-action sticker (3 November 2026): use the supplied
+  badge without changing its source image. Publication is now approved below.
+- Restore the staggered SPORTIFY letter-wave intro (latest user approval), but
+  keep sports as articulated actions, not whole-sport lifting. Show a right-to-left
+  bat swing, opposite-leg football kick with the bent leg planted, racket swing,
+  uphill steps, carrom shot, and repeated left-right table-tennis ball returns.
+  Shot destinations retain the badge layout.
+- Football refinement: drive a two-phase backswing and forward strike through
+  the hip at the shirt/shorts boundary, including the upper shorts in the moving
+  leg. Keep the jersey stationary in front of the hip. The shin inherits the hip
+  rotation, with at most 12 degrees of extra knee bend; preserve connected joints,
+  foot-to-ball contact and follow-through.
+- Canonical generator: preserved sibling `sportify/sticker-3/make_sticker.py`.
+  `sportify/sticker/make_sticker.py` launches it and synchronizes local exports;
+  `temp/sticker/make_sticker.py` delegates through that launcher. Earlier
+  `sticker-1` and `sticker-2` versions remain untouched.
+- Distinct export names: `sportify_sports_action.webp`, its HD companion and GIF;
+  keep the existing `sportify_sticker` names as identical compatibility aliases.
+- Validate horizontal movement, contact and final positions, stable transparency,
+  dimensions, looping and the 500 KB / 10 second WhatsApp limits.
 
 ## Published Stickers
 
@@ -143,6 +168,27 @@ Retain applicable points from the generic draft based on the supplied JD Soccer 
 4. Monthly turf/venue booking responsibility rotates among different residents, announced in the group with a booking/payment/venue handover. This is distinct from rotating who pays for an individual session.
 5. Transparent contributions; payment within 24 hours; venue-payer rotation; payment disclosure within 2-3 hours; source injury exemption.
 6. Safe play, respectful language, encouragement, injury awareness, shared roles and captain/coordinator-led conflict resolution.
+   User-requested inclusion (24 October 2026): every player is welcome regardless of
+   gender, age, skill or fitness level, with no gender-based remarks, jokes,
+   assumptions or exclusion (General G5.3 Inclusive environment). During play,
+   every player gets an equal chance irrespective of gender, skill or experience:
+   playing time, positions and roles are never decided by gender or ability, stronger
+   players get no extra time, beginners are involved, and captains balance teams by
+   mixing skill levels where possible (General G6.2 Equal chance for everyone). These
+   are added as new blocks so existing references do not shift. No new penalties are
+   introduced; concerns go to the captain or coordinator. The supplied Football rules
+   are unchanged; the Football book states that the General rules also apply.
+   Respect/legal review (24 October 2026): rules use positive, behaviour-focused wording
+   and clean language; dues are chased politely and privately, never shamed publicly;
+   people may share only what they are comfortable about their circumstances; the
+   inclusion list covers gender, age, religion, caste, language and disability;
+   children play only with parent/guardian consent and supervision; harassment,
+   intimidation, unwanted contact and discriminatory content (including in group
+   chats) are unacceptable and may be offences under Indian law; no photographing,
+   recording or sharing anyone's image or details without consent; call 112 in a
+   medical emergency; serious matters may be reported to the police (General G5.4).
+   This is community guidance, not legal advice; no statute sections are cited, and
+   a qualified Indian lawyer should review it before it is treated as legal advice.
 7. Sport-appropriate fair rotation, substitutions, late-entry rotation and immediate injury substitutions.
 8. Equipment & hygiene is removed from General for now. Retain Football's equipment, bib washing, drying, fair duties, washing incentive and handover rules in Football only.
 

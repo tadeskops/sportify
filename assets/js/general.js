@@ -65,7 +65,8 @@ export function generalRules(features, links = {}) {
           bullets: [
             "If unavoidable circumstances, such as an emergency, prevent participation, the player is excluded from the contribution share.",
             "Tell the coordinator as soon as possible so the contribution can be calculated or corrected.",
-            "This exemption applies even without a replacement or after contribution details have been shared."
+            "This exemption applies even without a replacement or after contribution details have been shared.",
+            "Share only what you are comfortable sharing about the circumstances."
           ]
         },
         {
@@ -118,7 +119,8 @@ export function generalRules(features, links = {}) {
           number: "4.1", title: "Contributions",
           bullets: [
             "Clear dues within 24 hours after the game. Delays may affect eligibility for upcoming games.",
-            "A player injured during the game and unable to continue is exempt from that game's contribution."
+            "A player injured during the game and unable to continue is exempt from that game's contribution.",
+            "Follow up on dues politely and privately. Never shame anyone in the group."
           ]
         },
         {
@@ -138,15 +140,34 @@ export function generalRules(features, links = {}) {
           bullets: [
             "Avoid reckless challenges, pushes, dangerous contact and unsafe equipment use.",
             "Follow the sport and venue rules; take extra care around players recovering from injury.",
-            "No abusive language, aggressive gestures or retaliation.",
-            "Encourage teammates after mistakes. Take a break if frustrated."
+            "No abusive or offensive language, aggressive gestures or retaliation.",
+            "Encourage teammates after mistakes. Take a break if frustrated.",
+            "In a medical emergency, call 112 first, then inform the coordinator."
           ]
         },
         {
           number: "5.2", title: "Concerns & disputes",
           bullets: [
             "Report unsafe play to the captain or coordinator instead of confronting another player.",
-            "Resolve disputes away from play. Warnings are intended to protect everyone."
+            "Resolve disputes away from play. Warnings are intended to protect everyone.",
+            "Raise concerns calmly, about the behaviour rather than the person."
+          ]
+        },
+        {
+          number: "5.3", title: "Inclusive environment",
+          bullets: [
+            "Everyone is welcome, regardless of gender, age, religion, caste, language, disability, skill or fitness level.",
+            "No gender-based remarks, jokes, assumptions or exclusion, on or off the field.",
+            "Treat everyone with equal respect. Speak kindly and never tease anyone about how they play.",
+            "Children play only with a parent or guardian's consent and supervision."
+          ]
+        },
+        {
+          number: "5.4", title: "Respect, privacy & the law",
+          bullets: [
+            "Harassment, intimidation, unwanted contact and discriminatory content, including in group chats, are unacceptable and may be offences under Indian law.",
+            "Do not photograph, record or share anyone's image or details without their consent.",
+            "Tell the captain or coordinator if you feel excluded or uncomfortable. Serious matters can also be reported to the police."
           ]
         }
       ]
@@ -163,6 +184,15 @@ export function generalRules(features, links = {}) {
             "Late arrivals enter through the rotation rather than displacing others.",
             "Injury substitutions are allowed at any time.",
             "For football timings, team sequence and alternatives, use the Football rule book."
+          ]
+        },
+        {
+          number: "6.2", title: "Equal chance for everyone",
+          bullets: [
+            "Every player gets an equal chance to play, irrespective of gender, skill or experience.",
+            "Playing time, positions and roles are shared fairly and never decided by gender or ability.",
+            "Include everyone in play, including beginners and less experienced players.",
+            "Captains balance teams by mixing skill levels where possible."
           ]
         }
       ]

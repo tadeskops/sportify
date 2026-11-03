@@ -81,6 +81,12 @@ export function validateConfig(config) {
       throw new Error(`gamePost ${sport.id} needs whole-number minPlayers >= 1 and maxPlayers >= minPlayers.`);
     }
   }
+  for (const venue of config.venues) {
+    if (venue.sports !== undefined &&
+        (!Array.isArray(venue.sports) || !venue.sports.length || venue.sports.some(id => !sportIds.has(id)))) {
+      throw new Error(`Venue ${venue.id} sports must be a nonempty array of gamePost sport IDs.`);
+    }
+  }
   if (!["dark", "light"].includes(config.appearance?.defaultTheme)) throw new Error("Invalid default theme.");
   if (!["classic", "modern"].includes(config.appearance?.defaultFont)) throw new Error("Invalid default font.");
   if (!["standard", "large"].includes(config.appearance?.defaultTextSize)) throw new Error("Invalid default text size.");

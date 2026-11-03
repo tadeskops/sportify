@@ -3,7 +3,7 @@ export default {
     name: "Sportify",
     address: "The Address",
     location: "Aundh-Baner Link Road",
-    updated: "17 October 2026"
+    updated: "24 October 2026"
   },
   branding: {
     logo: "animated"
@@ -41,6 +41,7 @@ export default {
       shortName: "4 Lions",
       provider: "PlaySpots",
       sport: "Football / turf",
+      sports: ["cricket", "football"],
       url: "https://book.playspots.in/venues/4-lions-academy-pimple",
       note: "A venue option shared by the community. Confirm the exact location, suitable format and travel time on the provider's listing before booking.",
       bookingSteps: [
@@ -49,6 +50,48 @@ export default {
         "Select Cricket, then Cricket 6A.",
         "Select an available slot. The currently shared slot is 8-9:30; verify the date, AM/PM and live availability on PlaySpots.",
         "Pay the required advance through the provider and confirm the booking date and time."
+      ],
+      contact: {
+        name: "",
+        phone: ""
+      }
+    },
+    {
+      id: "sportygen-aundh",
+      enabled: true,
+      name: "Sportygen Badminton Arena - Aundh",
+      shortName: "Sportygen Aundh",
+      provider: "Sportygen",
+      sport: "Badminton / court",
+      sports: ["badminton"],
+      url: "https://book.sportygen.in/venue/sportygen-badminton-arena-aundh",
+      note: "A badminton court option shared by the community. Confirm court availability, slot duration and price on Sportygen before booking.",
+      bookingSteps: [
+        "Open Sportygen (book.sportygen.in) and select Sportygen Badminton Arena - Aundh.",
+        "Select Badminton and the date.",
+        "Select an available court and slot; verify the date, AM/PM and live availability.",
+        "Pay through Sportygen and confirm the booking date, time and court."
+      ],
+      contact: {
+        name: "",
+        phone: ""
+      }
+    },
+    {
+      id: "sportygen-sanewadi",
+      enabled: true,
+      name: "Sportygen Sports Club - Sanewadi",
+      shortName: "Sportygen Sanewadi",
+      provider: "Sportygen",
+      sport: "Badminton / court",
+      sports: ["badminton"],
+      url: "https://book.sportygen.in/venue/sportygen-sports-club-sanewadi",
+      note: "A badminton court option shared by the community. Confirm court availability, slot duration and price on Sportygen before booking.",
+      bookingSteps: [
+        "Open Sportygen (book.sportygen.in) and select Sportygen Sports Club - Sanewadi.",
+        "Select Badminton and the date.",
+        "Select an available court and slot; verify the date, AM/PM and live availability.",
+        "Pay through Sportygen and confirm the booking date, time and court."
       ],
       contact: {
         name: "",

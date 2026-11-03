@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import config from "../config/site.js";
 import { validateConfig } from "../assets/js/config.js";
-import { buildGameMessage, buildGamesMessage, formatDateLabel, gameDays, formatTimeRange, nextSaturday, whatsappShareUrl } from "../assets/js/game-post.js";
+import { buildGameMessage, buildGamesMessage, formatDateLabel, gameDays, formatTimeRange, nextSaturday, venuesForSport, whatsappShareUrl } from "../assets/js/game-post.js";
 
 const cricket = config.gamePost.sports.find(sport => sport.id === "cricket");
 const base = { sport: cricket, venue: "4 Lions", booked: false, minPlayers: 8, maxPlayers: 8 };
@@ -10,7 +10,9 @@ const base = { sport: cricket, venue: "4 Lions", booked: false, minPlayers: 8, m
 test("a game message matches the group's existing template with Venue wording", () => {
   const message = buildGameMessage({ ...base, gameNumber: "5", date: "2026-10-25", start: "07:30", end: "09:00" });
   assert.equal(message, [
-    "⚠️ Those who wish to join kindly copy this message, add your name and paste.",
+    "⚠️ Add names for Sun game",
+    "_________________________",
+    "Those who wish to join kindly copy this message, add your name and paste.",
     "——————————-",
     "Game 5: Cricket",
     "Venue: 4 Lions (Not booked)",
@@ -30,7 +32,7 @@ test("TBD venue, TBD time, tentative flag and note", () => {
   assert.ok(lines.includes("Venue: TBD (Not booked)"), "TBD venue can never be shown as booked");
   assert.equal(lines[lines.indexOf("Date: 24 Oct Sat") + 1], "Time: TBD (tentative)");
   assert.ok(lines.includes("Contribution approx. 150"));
-  assert.ok(!lines.some(line => line.includes("Add names with Day")), "one date per game needs no day choice");
+  assert.equal(lines[0], "⚠️ Add names for Sat game");
   const booked = buildGameMessage({ ...base, booked: true, tentative: true, date: "2026-10-24", start: "07:30", end: "09:00" });
   assert.match(booked, /Venue: 4 Lions \(Booked\)\nDate: 24 Oct Sat\nTime: 7:30-9 AM \(1.5 Hrs\) \(tentative\)/);
 });
@@ -42,7 +44,7 @@ test("several games share one message, each with one date, its own list and coun
     { sport: football, gameNumber: "6", venue: "", minPlayers: 8, maxPlayers: 10, date: "2026-10-25", start: "18:00", end: "19:00" }
   ]);
   const lines = message.split("\n");
-  assert.deepEqual(lines.slice(0, 4), ["⚠️ Add names with Day (i.e., Sat & Sun)", "————————————-", "⚠️ Those who wish to join kindly copy this message, add your name and paste.", "——————————-"]);
+  assert.deepEqual(lines.slice(0, 4), ["⚠️ Add names for Sat & Sun games", "_________________________", "Those who wish to join kindly copy this message, add your name and paste.", "——————————-"]);
   assert.equal(lines.filter(line => line === "1. ").length, 2);
   assert.equal(lines.filter(line => line.startsWith("Date: ")).length, 2);
   const second = lines.indexOf("Game 6: Football");
@@ -54,7 +56,7 @@ test("several games share one message, each with one date, its own list and coun
   ]);
   const single = { ...base, gameNumber: "5", date: "2026-10-25", start: "07:30", end: "09:00" };
   assert.equal(buildGamesMessage([single]), buildGameMessage(single));
-  assert.ok(!buildGamesMessage([single, { ...single, gameNumber: "6", sport: football }]).includes("Add names with Day"), "games on the same date need no day line");
+  assert.equal(buildGamesMessage([single, { ...single, gameNumber: "6", sport: football }]).split("\n")[0], "⚠️ Add names for Sun games");
   assert.throws(() => buildGamesMessage([]), /at least one game/);
   assert.throws(() => buildGamesMessage([single, { ...single, gameNumber: "6", date: "" }]), /^Error: Game 2: Choose a date/);
   assert.throws(() => buildGamesMessage([single, { ...single, gameNumber: "6", end: "" }]), /^Error: Game 2: Enter both start and end/);
@@ -66,7 +68,26 @@ test("day line lists each game day in date order", () => {
   assert.equal(gameDays(["2026-10-24", "2026-10-19", "2026-10-25", "2026-10-24"]), "Mon, Sat & Sun");
   assert.equal(gameDays(["2026-10-31", "2026-10-24"]), "24 Oct Sat & 31 Oct Sat");
   const games = ["2026-10-25", "2026-10-19", "2026-10-24"].map((date, index) => ({ ...base, gameNumber: String(index + 1), date }));
-  assert.equal(buildGamesMessage(games).split("\n")[0], "⚠️ Add names with Day (i.e., Mon, Sat & Sun)");
+  assert.equal(buildGamesMessage(games).split("\n")[0], "⚠️ Add names for Mon, Sat & Sun games");
+  const repeatedDay = ["2026-10-31", "2026-10-24"].map((date, index) => ({ ...base, gameNumber: String(index + 1), date }));
+  assert.equal(buildGamesMessage(repeatedDay).split("\n")[0], "⚠️ Add names for 24 Oct Sat & 31 Oct Sat games");
+});
+
+test("booked Saturday game matches the requested Game 11 template", () => {
+  assert.equal(buildGameMessage({ ...base, booked: true, gameNumber: "11", date: "2026-11-07", start: "07:30", end: "09:00" }), [
+    "⚠️ Add names for Sat game",
+    "_________________________",
+    "Those who wish to join kindly copy this message, add your name and paste.",
+    "——————————-",
+    "Game 11: Cricket",
+    "Venue: 4 Lions (Booked)",
+    "Date: 7 Nov Sat",
+    "Time: 7:30-9 AM (1.5 Hrs)",
+    "",
+    "1. ",
+    "",
+    "Count stops at 8 🛑"
+  ].join("\n"));
 });
 
 test("time and date formatting handles meridiem, durations and invalid input", () => {
@@ -116,4 +137,16 @@ test("game post configuration is validated", () => {
   const venue = structuredClone(config);
   venue.venues[0].shortName = " ";
   assert.throws(() => validateConfig(venue), /shortName/);
+  const venueSports = structuredClone(config);
+  venueSports.venues[0].sports = ["squash"];
+  assert.throws(() => validateConfig(venueSports), /sports must be/);
+});
+test("venue dropdown only offers venues listed for the chosen sport", () => {
+  const ids = sport => venuesForSport(config.venues, sport).map(venue => venue.id);
+  assert.deepEqual(ids("badminton"), ["sportygen-aundh", "sportygen-sanewadi"]);
+  assert.deepEqual(ids("cricket"), ["four-lions"]);
+  assert.deepEqual(venuesForSport([{ id: "any" }], "badminton").map(venue => venue.id), ["any"]);
+  for (const venue of config.venues.filter(item => item.provider === "Sportygen")) {
+    assert.match(venue.url, /^https:\/\/book\.sportygen\.in\/venue\//);
+  }
 });
