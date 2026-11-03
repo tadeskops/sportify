@@ -77,6 +77,16 @@ Create a static community sports rule book for Sportify - The Address, Aundh-Ban
   Publish consented photos only, with private/GPS metadata removed; no public
   upload backend is included.
 
+## Published Stickers
+
+- User-approved publication (3 November 2026): keep exactly two animated WebP
+  stickers in `assets/stickers/`: `sportify_sports_action.webp` and
+  `feeling_sportified.webp`. Keep generators, previews and HD companions local.
+- The feeling SPORTIFIED sticker retains the original badge brushwork, has no
+  lower green swoosh, and uses the faster 2-second letter-wave loop.
+- Both stickers must be transparent, 512x512, loop within 10 seconds, and stay
+  below 500 KiB. No new website controls or layout changes are requested.
+
 ## Policy coverage
 
 Moderator clarification: the game moderator is the person who booked the turf.
