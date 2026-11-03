@@ -1,7 +1,7 @@
 export const featureNames = [
   "join", "monthlyRotation", "venueBooking", "bookingPicker", "gamePost", "football", "search", "sectionNavigation",
   "appearance", "themePicker", "fontPicker", "textSize", "rememberPreferences",
-  "socialLinks", "whatsapp", "instagram", "backToTop", "photoBooth"
+  "socialLinks", "whatsapp", "instagram", "backToTop", "photoBooth", "stickers"
 ];
 
 const logoSources = {

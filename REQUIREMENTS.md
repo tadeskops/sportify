@@ -79,9 +79,25 @@ Create a static community sports rule book for Sportify - The Address, Aundh-Ban
 
 ## Published Stickers
 
-- User-approved publication (3 November 2026): keep exactly two animated WebP
-  stickers in `assets/stickers/`: `sportify_sports_action.webp` and
-  `feeling_sportified.webp`. Keep generators, previews and HD companions local.
+Sticker selector (3 November 2026): a small, unframed section below community
+content, controlled by `features.stickers`. List the two distinct animations
+from `feeling-sportified-sticker/` and `sportify_sticker/` in a labelled dropdown;
+exclude aliases and support images. Offer animated WebP (WhatsApp import), GIF,
+and Instagram-compatible H.264 MP4, with fixed-size preview, pause/play control,
+file sharing where supported and an always-available download after loading.
+MP4 preview must match the selected video. Start previews paused for reduced
+motion. Report loading/errors, provide Retry, and handle selection races and
+cancelled/unsupported/denied file sharing without sending a static image or URL.
+WebP remains transparent, 512x512, under 500 KiB and ten seconds. MP4 uses
+1080x1080 yuv420p at 30 fps with a charcoal background and at least three seconds
+of animation. A web page cannot guarantee native WhatsApp sticker installation,
+Instagram app targeting or Stories insertion; do not claim otherwise or invent
+an installable pack from only two stickers. Preserve the existing site design.
+
+- User-approved publication (3 November 2026): publish both sticker collections
+  under `assets/stickers/`, including GIF/PNG/WebP exports, HD companions,
+  previews and generators. Preserve the root WebP/GIF paths used by the logo
+  configuration. Exclude Python caches and compiled bytecode.
 - The feeling SPORTIFIED sticker retains the original badge brushwork, has no
   lower green swoosh, and uses the faster 2-second letter-wave loop.
 - Both stickers must be transparent, 512x512, loop within 10 seconds, and stay

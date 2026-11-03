@@ -41,6 +41,7 @@ repository configuration, not an in-browser admin editor or access control.
 | `sectionNavigation` | Rule-section contents navigation |
 | `backToTop` | Transparent floating up-arrow after scrolling more than 400px; keyboard accessible and reduced-motion aware |
 | `photoBooth` | Photo booth and hero shortcut, only when at least one unexpired photo is present |
+| `stickers` | Compact sticker selector with animated preview, file sharing and downloads |
 | `appearance` | Parent switch for the entire floating appearance panel |
 | `themePicker` | Dark/light controls |
 | `fontPicker` | Optional Classic serif/Modern sans controls; disabled in the approved UI |
@@ -88,6 +89,37 @@ highlight and a soft layered gold halo
 that travels clockwise once every seven seconds. The logo/card do not rotate;
 the selected animated artwork plays inside the rim. Reduced-motion preferences
 keep the artwork and highlight static.
+
+## Animated Sticker Sharing
+
+The compact `#stickers` section lists Sportify sports action and Feeling sportified
+from their folders in `assets/stickers/`. The `stickers` feature flag controls the
+whole section. Each selection offers animated WebP, GIF and MP4 files; aliases,
+generators and contact sheets are not duplicate sticker choices.
+
+- WhatsApp sticker (WebP): original transparent 512x512 animation, below 500 KiB
+  and 10 seconds. A browser cannot install native WhatsApp stickers. Import the
+  downloaded WebP using WhatsApp's supported creation tools or a compatible
+  animated-sticker app; availability varies by device. No fake sticker pack is
+  generated (WhatsApp's sample pack workflow requires at least three stickers).
+- Animated GIF: the original looping animation for apps that accept GIFs. The
+  receiving app may treat it as media or a file, rather than a native sticker.
+- Instagram video (MP4): H.264, yuv420p, 1080x1080, 30 fps, fast-start video.
+  Transparency is composited on charcoal; the short text sticker repeats to
+  four seconds. This is animated video, not an Instagram-native sticker or a
+  guaranteed Stories integration. The selected MP4 is also used in its preview.
+
+Share file uses Web Share only when the browser accepts that exact file type;
+the file is prepared before the click to preserve user activation. The device
+chooses the available apps. HTTPS (or localhost), device support and receiving-app
+support are required. Downloads stay available when sharing is unsupported,
+cancelled or denied. No file is replaced with a static PNG, flattened canvas,
+website link, `wa.me` URL or unsupported Instagram deep link.
+
+Preview motion can be paused; reduced-motion users start on a static poster.
+Selection/format changes replace pending requests, revoke old download URLs,
+and show load errors with Retry. Files are local static assets; no uploads,
+accounts or third-party scripts are added.
 
 Community text and links are also configurable. The WhatsApp invitation is
 public by design. Never store secrets, payment details or private resident data

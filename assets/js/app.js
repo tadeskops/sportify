@@ -9,6 +9,7 @@ import { mountBackToTop } from "./back-to-top.js";
 import { mountPhotoBooth } from "./photo-booth.js";
 import { mountBookingPicker, renderVenueDirectory } from "./venues.js";
 import { mountGamePost } from "./game-post.js";
+import { renderStickerSection, mountStickers } from "./stickers.js";
 
 function renderSite() {
   const { community: c, features: f, links } = config;
@@ -49,6 +50,7 @@ function renderSite() {
         ${f.join ? `<section class="join-section" id="join" aria-labelledby="join-title"><div class="section-intro"><p class="eyebrow">START HERE</p><h2 id="join-title">How to join a game</h2></div><ol class="join-steps"><li><span class="step">01</span><h3>Join the WhatsApp group</h3>${whatsappEnabled ? whatsappLink("Join Sportify", "inline-social") : '<p>Ask a resident coordinator for group access.</p>'}</li><li><span class="step">02</span><h3>Choose next week's game</h3><p>Check the planned games for the following week: sport, venue, date, time, places and contribution.</p>${f.gamePost ? '<button type="button" class="inline-post" data-post-game aria-haspopup="dialog" aria-controls="post-game-dialog">Start a game list &nearr;</button>' : ""}</li><li><span class="step">03</span><h3>Confirm your place</h3><p>Add your own name to the Main List only when confirmed to play. Unsure or full? Use the Waitlist.</p></li></ol><p class="join-note">Joining the group does not reserve a place. Wait for confirmation if you are waitlisted.</p></section>` : ""}
         ${venues.length && !f.bookingPicker ? renderVenueDirectory(venues, f.monthlyRotation) : ""}
         ${f.photoBooth ? '<div id="photo-booth"></div>' : ""}
+        ${renderStickerSection(f.stickers)}
         <section class="closing"><img class="closing-address" src="${addressLogo}" width="45" height="45" alt="The Address logo"><p class="eyebrow">OUR SHARED PROMISE</p><h2>Respect the time.<br>Enjoy the game.</h2><p>Show up. Play fair. Look out for each other.</p><a href="#page-title">Back to top &uarr;</a></section>
         <aside class="membership-note" aria-labelledby="membership-title"><h2 id="membership-title">Keeping the group active</h2><p>Inactive members will be removed from the WhatsApp group during routine reviews. You're always welcome to rejoin when you're ready to participate.</p></aside>
       </main>
@@ -75,6 +77,7 @@ function renderSite() {
   if (location.hash === "#book-turf" && !document.getElementById("booking-dialog") && document.getElementById("venues")) location.replace("#venues");
   if (f.gamePost) mountGamePost(config, venues);
   mountPhotoBooth(config);
+  mountStickers();
 }
 
 try {

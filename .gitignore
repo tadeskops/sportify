@@ -1,3 +1,5 @@
 /temp/
 /dist/
 /node_modules/
+/assets/stickers/**/__pycache__/
+/assets/stickers/**/*.py[cod]

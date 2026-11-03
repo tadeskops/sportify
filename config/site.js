@@ -23,6 +23,7 @@ export default {
     sectionNavigation: true,
     backToTop: true,
     photoBooth: true,
+    stickers: true,
     appearance: true,
     themePicker: true,
     fontPicker: false,
