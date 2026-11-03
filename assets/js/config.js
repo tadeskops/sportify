@@ -4,8 +4,22 @@ export const featureNames = [
   "socialLinks", "whatsapp", "instagram", "backToTop", "photoBooth"
 ];
 
+const logoSources = {
+  static: "assets/Sportify%20Community%20Sports%20Badge.png",
+  animated: "assets/stickers/sportify_sports_action.gif",
+  "animated-webp": "assets/stickers/sportify_sports_action.webp",
+  sportified: "assets/stickers/feeling_sportified.webp"
+};
+
+export function resolveLogo(config, reducedMotion = false) {
+  return logoSources[reducedMotion ? "static" : config.branding.logo];
+}
+
 export function validateConfig(config) {
   if (!config || typeof config !== "object") throw new Error("Site configuration must be an object.");
+  if (!Object.hasOwn(logoSources, config.branding?.logo)) {
+    throw new Error("branding.logo must be static, animated, animated-webp or sportified.");
+  }
   for (const key of featureNames) {
     if (typeof config.features?.[key] !== "boolean") throw new Error(`features.${key} must be true or false.`);
   }

@@ -76,10 +76,18 @@ Classic typography is fixed in the approved UI (`fontPicker: false`); saved sans
 preferences are ignored. Larger uses a 1.2x root size so headings, body text,
 labels and navigation scale together, preserving their typography ratios.
 
+Set `branding.logo` to `"animated"` (default sports-action GIF), `"animated-webp"`
+(the same animation in a much smaller file), `"static"` (original badge), or
+`"sportified"` (feeling SPORTIFIED sticker). The selection applies to the header
+and hero at every desktop/mobile width, without adding visitor controls.
+Reduced-motion preferences use the original static badge, including when changed
+during a visit. If a selected image fails to load, it falls back to the static badge.
+
 The hero badge has a fine 2px, theme-matched gold rim with a bright champagne
 highlight and a soft layered gold halo
-that travels clockwise once every seven seconds. Only the decorative rim moves,
-not the logo or card; reduced-motion preferences keep the highlight static.
+that travels clockwise once every seven seconds. The logo/card do not rotate;
+the selected animated artwork plays inside the rim. Reduced-motion preferences
+keep the artwork and highlight static.
 
 Community text and links are also configurable. The WhatsApp invitation is
 public by design. Never store secrets, payment details or private resident data

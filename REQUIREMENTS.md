@@ -89,6 +89,16 @@ Create a static community sports rule book for Sportify - The Address, Aundh-Ban
 
 ## Policy coverage
 
+Logo configuration (3 November 2026): `branding.logo` selects `animated`
+(default sports-action GIF), `animated-webp` (smaller equivalent), `static`
+(original badge), or `sportified` (feeling SPORTIFIED sticker). Use the same
+selection in the header and hero on desktop/mobile, with fixed square dimensions
+and the existing circular golden glow/seven-second rim unchanged. Publish the
+original sports-action GIF under `assets/stickers/` alongside the two WebPs.
+Reduced-motion visitors receive the static badge and stationary glow; react to
+preference changes during the visit. Failed logo loads fall back to the original
+static badge. Do not add a visitor-facing logo switcher or alter The Address logo.
+
 Moderator clarification: the game moderator is the person who booked the turf.
 They must recheck the listed player count 24 hours before play and arrange any
 necessary booking amendments. Highlight this in a third top deadline card

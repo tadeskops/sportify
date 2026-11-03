@@ -5,6 +5,9 @@ export default {
     location: "Aundh-Baner Link Road",
     updated: "17 October 2026"
   },
+  branding: {
+    logo: "animated"
+  },
   links: {
     whatsapp: "https://chat.whatsapp.com/JLOrS75EOh9KTsF0OOIRYF",
     instagram: "https://www.instagram.com/theaddress_society"

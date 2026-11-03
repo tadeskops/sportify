@@ -1,5 +1,5 @@
 import config from "../../config/site.js";
-import { validateConfig } from "./config.js";
+import { validateConfig, resolveLogo } from "./config.js";
 import { escapeHtml as e, icon } from "./dom.js";
 import { generalRules } from "./general.js";
 import { footballRules } from "./football.js";
@@ -12,7 +12,8 @@ import { mountGamePost } from "./game-post.js";
 
 function renderSite() {
   const { community: c, features: f, links } = config;
-  const badge = "assets/Sportify%20Community%20Sports%20Badge.png";
+  const logoMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const badge = resolveLogo(config, logoMotion.matches);
   const addressLogo = "assets/TaLogo.png";
   const whatsappEnabled = f.whatsapp && Boolean(links.whatsapp);
   const showSocialLinks = f.socialLinks && (whatsappEnabled || f.instagram);
@@ -20,9 +21,9 @@ function renderSite() {
   const venues = f.venueBooking ? config.venues.filter(venue => venue.enabled) : [];
   document.title = `${c.name} | ${c.address} community sports`;
   document.getElementById("app").innerHTML = `
-    <div class="site-shell">
+    <div class="site-shell" data-logo="${e(config.branding.logo)}">
       <header class="site-header">
-        <a class="brand" href="./" aria-label="${e(c.name)} home"><img src="${badge}" width="52" height="52" alt=""><span>${e(c.name)}<small>${e(c.address)}</small></span></a>
+        <a class="brand" href="./" aria-label="${e(c.name)} home"><img data-community-logo src="${e(badge)}" width="52" height="52" alt=""><span>${e(c.name)}<small>${e(c.address)}</small></span></a>
         <div class="address-brand"><img src="${addressLogo}" width="38" height="38" alt="The Address logo"><span><strong>${e(c.address)}</strong><small>${e(c.location)}</small></span></div>
         <div class="header-actions">${f.gamePost ? `<button type="button" class="post-game" id="post-game" data-post-game aria-haspopup="dialog" aria-controls="post-game-dialog">${icon("whatsapp")}<span>Post a game</span></button>` : ""}${f.bookingPicker && venues.length ? `<button type="button" class="book-turf" id="book-turf" aria-haspopup="dialog" aria-controls="booking-dialog">${icon("calendar")}<span>Book a turf</span></button>` : ""}<a class="header-link" href="${f.join ? "#join" : "#rule-book"}">${f.join ? "Join the next game" : "Read the rule book"} &nearr;</a></div>
       </header>
@@ -32,7 +33,7 @@ function renderSite() {
             <div class="hero-actions"><a class="primary-link" href="#rule-book">Read the rules &darr;</a>${f.join ? '<a href="#join">How to join a game &nearr;</a>' : ""}${venues.length ? f.bookingPicker ? '<button type="button" class="booking-guide-link" id="booking-guidelines" aria-haspopup="dialog" aria-controls="booking-dialog">How to book a turf &nearr;</button>' : '<a href="#venues">How to book a turf &nearr;</a>' : ""}</div>
             <p class="hero-meta"><span class="status-dot" aria-hidden="true"></span> By residents. For residents.</p>
           </div>
-          <div class="hero-art"><div class="hero-badge"><img src="${badge}" alt="Sportify community sports badge" width="768" height="768"><span class="hero-badge-rim" aria-hidden="true"></span></div><span>MANY SPORTS. ONE COMMUNITY.</span></div>
+          <div class="hero-art"><div class="hero-badge"><img data-community-logo src="${e(badge)}" alt="Sportify community sports badge" width="768" height="768"><span class="hero-badge-rim" aria-hidden="true"></span></div><span>MANY SPORTS. ONE COMMUNITY.</span></div>
         </section>
         <aside class="commitment"><span aria-hidden="true">&nearr;</span><div><strong>Your booking is your commitment.</strong><p>Confirm only when you can play. If something unavoidable comes up, tell the coordinator promptly.</p></div></aside>
         <div class="quick-rules" aria-label="Key deadlines"><div><span class="metric">24<small>h</small></span><span><strong>Cancel before the game</strong><small>Late backout? Pay unless replaced. Unavoidable circumstances, such as an emergency? No contribution share.</small></span></div><div><span class="metric">24<small>h</small></span><span><strong>Pay after the game</strong><small>Clear your contribution on time.</small></span></div><div><span class="metric">24<small>h</small></span><span><strong>Moderator: recheck before the game</strong><small>The turf booker is the game moderator. Recheck the listed player count 24 hours before play and arrange any booking changes.</small></span></div></div>
@@ -53,6 +54,16 @@ function renderSite() {
       </main>
       <footer><div class="footer-identity"><img src="${addressLogo}" width="30" height="30" alt=""><span>${e(c.name)} <small>${e(c.address)} &middot; ${e(c.location)}</small></span></div>${showSocialLinks ? `<nav class="social-links" aria-label="Community social links">${whatsappEnabled ? whatsappLink("Sportify WhatsApp") : ""}${f.instagram ? `<a href="${e(links.instagram)}" target="_blank" rel="noopener noreferrer">${icon("instagram")}<span>The Address Instagram</span><span class="sr-only"> (opens in a new tab)</span></a>` : ""}</nav>` : ""}<p class="footer-note">Updated ${e(c.updated)}</p></footer>
     </div><p id="preference-status" class="preference-status" role="status" aria-live="polite"></p>`;
+  const logos = document.querySelectorAll("[data-community-logo]");
+  for (const image of logos) {
+    image.addEventListener("error", () => {
+      const fallback = new URL(resolveLogo(config, true), document.baseURI).href;
+      if (image.src !== fallback) image.src = fallback;
+    });
+  }
+  logoMotion.addEventListener("change", ({ matches }) => {
+    for (const image of logos) image.src = resolveLogo(config, matches);
+  });
   mountRulebook({ general: generalRules(f, {
     postGame: f.gamePost,
     bookTurf: venues.length ? (f.bookingPicker ? "#book-turf" : "#venues") : "",

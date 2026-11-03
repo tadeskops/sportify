@@ -4,7 +4,7 @@ import { mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import config from "../config/site.js";
-import { validateConfig, appearanceEnabled, featureNames } from "../assets/js/config.js";
+import { validateConfig, appearanceEnabled, featureNames, resolveLogo } from "../assets/js/config.js";
 import { resolvePreferences } from "../assets/js/appearance.js";
 import { generalRules, turfBookingGuidelines } from "../assets/js/general.js";
 import { footballRules, footballSource } from "../assets/js/football.js";
@@ -33,6 +33,29 @@ test("configuration validates booleans, names, URLs and appearance defaults", ()
   assert.throws(() => validateConfig(delay), /idle delay/);
   assert.equal(config.links.whatsapp, "https://chat.whatsapp.com/JLOrS75EOh9KTsF0OOIRYF");
   assert.equal(config.links.instagram, "https://www.instagram.com/theaddress_society");
+});
+
+test("logo configuration selects reviewed assets and respects reduced motion", () => {
+  assert.equal(config.branding.logo, "animated");
+  assert.equal(resolveLogo(config), "assets/stickers/sportify_sports_action.gif");
+  const sources = {
+    static: "assets/Sportify%20Community%20Sports%20Badge.png",
+    animated: "assets/stickers/sportify_sports_action.gif",
+    "animated-webp": "assets/stickers/sportify_sports_action.webp",
+    sportified: "assets/stickers/feeling_sportified.webp"
+  };
+  for (const [variant, source] of Object.entries(sources)) {
+    const changed = structuredClone(config);
+    changed.branding.logo = variant;
+    assert.equal(validateConfig(changed), changed);
+    assert.equal(resolveLogo(changed), source);
+    assert.equal(resolveLogo(changed, true), sources.static);
+  }
+  for (const variant of [undefined, "unknown", "__proto__", "javascript:alert(1)"]) {
+    const changed = structuredClone(config);
+    changed.branding.logo = variant;
+    assert.throws(() => validateConfig(changed), /branding.logo/);
+  }
 });
 
 test("disabled appearance controls ignore stale persisted preferences", () => {
@@ -304,6 +327,12 @@ test("build publishes allowlisted static files, never demos or repository contex
     const html = await readFile(join(destination, "index.html"), "utf8");
     assert.match(html, /src="assets\/js\/boot.js"/);
     assert.doesNotMatch(html, /temp\//);
+    for (const variant of ["static", "animated", "animated-webp", "sportified"]) {
+      const changed = structuredClone(config);
+      changed.branding.logo = variant;
+      const source = decodeURIComponent(resolveLogo(changed));
+      assert.deepEqual(await readFile(join(destination, source)), await readFile(new URL(`../${source}`, import.meta.url)));
+    }
     const workflow = await readFile(new URL("../.github/workflows/pages.yml", import.meta.url), "utf8");
     assert.match(workflow, /branches: \[main\]/);
     assert.match(workflow, /path: dist/);
